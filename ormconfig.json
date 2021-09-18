@@ -4,5 +4,11 @@
   "port": 5432,
   "username": "postgres",
   "password": "1234",
-  "database": "redminesprint"
+  "database": "redminesprint",
+  "migrations": [
+    "./src/shared/typeorm/migrations/*.ts"
+  ],
+  "cli": {
+    "migrationsDir": "./src/shared/typeorm/migrations/"
+  }
 }
