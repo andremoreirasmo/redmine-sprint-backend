@@ -6,7 +6,9 @@ import { errors } from 'celebrate';
 import routes from './routes';
 import AppError from '@shared/errors/AppError';
 import '@shared/typeorm';
+import dotenv from 'dotenv';
 
+dotenv.config();
 const app = express();
 
 app.use(cors());
