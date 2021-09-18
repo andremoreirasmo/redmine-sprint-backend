@@ -52,6 +52,6 @@ export default class RedmineController {
 
     await deleteRedmine.execute({ id });
 
-    return response.json([]);
+    return response.status(204).json();
   }
 }
