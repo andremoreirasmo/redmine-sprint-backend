@@ -5,6 +5,7 @@
   "username": "postgres",
   "password": "1234",
   "database": "redminesprint",
+  "entities": ["./src/modules/**/typeorm/entities/*.ts"],
   "migrations": [
     "./src/shared/typeorm/migrations/*.ts"
   ],

@@ -1,9 +1,8 @@
+import redmineRouter from '@modules/redmine/routes/redmine.routes';
 import { Router } from 'express';
 
 const routes = Router();
 
-routes.get('/', (request, response) => {
-  return response.json({ message: 'hello' });
-});
+routes.use('/redmine', redmineRouter);
 
 export default routes;

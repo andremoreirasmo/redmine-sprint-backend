@@ -22,7 +22,7 @@ class Redmine {
   @CreateDateColumn()
   createdAt: Date;
 
-  @CreateDateColumn('updatedAt')
+  @CreateDateColumn()
   updatedAt: Date;
 }
 
