@@ -9,7 +9,7 @@ interface IRequest {
   apiKey: string;
 }
 
-class CreteRedmineService {
+class CreateRedmineService {
   public async execute({ name, url, apiKey }: IRequest): Promise<Redmine> {
     const redmineRepository = getCustomRepository(RedmineRepository);
     const redmineExists = await redmineRepository.findByName(name);
@@ -30,4 +30,4 @@ class CreteRedmineService {
   }
 }
 
-export default CreteRedmineService;
+export default CreateRedmineService;
