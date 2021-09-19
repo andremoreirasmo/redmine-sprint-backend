@@ -23,7 +23,7 @@ class ResetPasswordService {
       throw new AppError('User Token does not exists.');
     }
 
-    const user = await userRepository.findById(userToken.id);
+    const user = await userRepository.findById(userToken.user_id);
 
     if (!user) {
       throw new AppError('User does not exists.');
@@ -38,6 +38,8 @@ class ResetPasswordService {
 
     password += authConfig.jwt.secret;
     user.password = await hash(password, 8);
+
+    await userRepository.save(user);
   }
 }
 
