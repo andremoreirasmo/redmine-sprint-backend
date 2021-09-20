@@ -5,7 +5,7 @@ import Redmine from '../entities/Redmine';
 export class RedmineRepository extends Repository<Redmine> {
   public async findById(id: string): Promise<Redmine | undefined> {
     const redmine = this.findOne(id, {
-      relations: ['redmine_users'],
+      relations: ['redmine_users', 'redmine_users.user'],
     });
 
     return redmine;
