@@ -1,8 +1,8 @@
-import { RedmineUserRepository } from './../typeorm/repositories/RedmineUserRepository';
 import { getCustomRepository } from 'typeorm';
 import { RedmineRepository } from '../typeorm/repositories/RedmineRepository';
 import Redmine from '../typeorm/entities/Redmine';
 import EnumRoleRedmine from '../Enums/EnumRoleRedmine';
+import RedmineUser from '../typeorm/entities/RedmineUser';
 
 interface IRequest {
   user_id: string;
@@ -26,13 +26,12 @@ class CreateRedmineService {
       apiKey,
     });
 
-    const redmineUserRepository = getCustomRepository(RedmineUserRepository);
-    const redmineUser = redmineUserRepository.create({
+    const redmineUser = {
       user: {
         id: user_id,
       },
       role: EnumRoleRedmine.Owner,
-    });
+    } as RedmineUser;
 
     redmine.redmine_users = [redmineUser];
 
