@@ -18,7 +18,6 @@ class DeleteRedmineService {
       throw new AppError('Redmine not found.');
     }
 
-    console.log(redmine);
     const redmineUser = redmine.redmine_users.find(
       redmine_user => redmine_user.user.id === user_id,
     );
