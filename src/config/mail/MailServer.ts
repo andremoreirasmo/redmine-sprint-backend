@@ -25,7 +25,7 @@ export default class MailServer {
   }: ISendMail): Promise<void> {
     const transport = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
-      port: process.env.SMTP_PORT,
+      port: parseInt(process.env.SMTP_PORT as string),
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,

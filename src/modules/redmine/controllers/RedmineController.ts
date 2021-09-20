@@ -15,42 +15,52 @@ export default class RedmineController {
   }
 
   public async show(request: Request, response: Response): Promise<Response> {
+    const user_id = request.user.id;
     const { id } = request.params;
 
     const showRedmine = new ShowRedmineService();
 
-    const redmine = await showRedmine.execute({ id });
+    const redmine = await showRedmine.execute({ user_id, id });
 
     return response.json(redmine);
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
+    const user_id = request.user.id;
     const { name, url, apiKey } = request.body;
 
     const createRedmine = new CreateRedmineService();
 
-    const redmine = await createRedmine.execute({ name, url, apiKey });
+    const redmine = await createRedmine.execute({ user_id, name, url, apiKey });
 
     return response.json(redmine);
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
+    const user_id = request.user.id;
     const { id } = request.params;
     const { name, url, apiKey } = request.body;
 
     const updateRedmine = new UpdateRedmineService();
 
-    const redmine = await updateRedmine.execute({ id, name, url, apiKey });
+    const redmine = await updateRedmine.execute({
+      user_id,
+      id,
+      name,
+      url,
+      apiKey,
+    });
 
     return response.json(redmine);
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
+    const user_id = request.user.id;
     const { id } = request.params;
 
     const deleteRedmine = new DeleteRedmineService();
 
-    await deleteRedmine.execute({ id });
+    await deleteRedmine.execute({ user_id, id });
 
     return response.status(204).json();
   }

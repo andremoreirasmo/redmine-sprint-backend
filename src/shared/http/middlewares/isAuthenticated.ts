@@ -23,7 +23,7 @@ export default function isAuthenticated(
     const { sub } = decodedToken;
 
     request.user = {
-      id: sub,
+      id: sub as string,
     };
 
     return next();

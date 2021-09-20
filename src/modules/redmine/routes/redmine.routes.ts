@@ -1,9 +1,12 @@
 import { Router } from 'express';
 import RedmineController from '../controllers/RedmineController';
 import { celebrate, Joi, Segments } from 'celebrate';
+import isAuthenticated from '@shared/http/middlewares/isAuthenticated';
 
 const redmineRouter = Router();
 const redmineController = new RedmineController();
+
+redmineRouter.use(isAuthenticated);
 
 redmineRouter.get('/', redmineController.index);
 
