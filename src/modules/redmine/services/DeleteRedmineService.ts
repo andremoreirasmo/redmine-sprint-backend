@@ -1,7 +1,7 @@
 import { getCustomRepository } from 'typeorm';
 import { RedmineRepository } from '../typeorm/repositories/RedmineRepository';
 import AppError from '@shared/errors/AppError';
-import EnumRoleRedmine from '../Enums/EnumRoleRedmine';
+import EnumRoleRedmine from '../enums/EnumRoleRedmine';
 
 interface IRequest {
   user_id: string;

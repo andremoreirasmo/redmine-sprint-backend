@@ -2,7 +2,6 @@ import { getCustomRepository } from 'typeorm';
 import { RedmineRepository } from '../typeorm/repositories/RedmineRepository';
 import Redmine from '../typeorm/entities/Redmine';
 import { classToClass } from 'class-transformer';
-import { EnumRoleRedmineLabel } from '../Enums/EnumRoleRedmine';
 
 interface IRequest {
   user_id: string;

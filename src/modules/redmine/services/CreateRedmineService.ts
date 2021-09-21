@@ -1,9 +1,7 @@
 import { getCustomRepository } from 'typeorm';
 import { RedmineRepository } from '../typeorm/repositories/RedmineRepository';
 import Redmine from '../typeorm/entities/Redmine';
-import EnumRoleRedmine, {
-  EnumRoleRedmineLabel,
-} from '../Enums/EnumRoleRedmine';
+import EnumRoleRedmine from '../enums/EnumRoleRedmine';
 import RedmineUser from '../typeorm/entities/RedmineUser';
 import { classToClass } from 'class-transformer';
 

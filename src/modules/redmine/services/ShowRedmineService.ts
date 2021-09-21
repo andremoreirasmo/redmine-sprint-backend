@@ -2,7 +2,6 @@ import { getCustomRepository } from 'typeorm';
 import { RedmineRepository } from '../typeorm/repositories/RedmineRepository';
 import Redmine from '../typeorm/entities/Redmine';
 import AppError from '@shared/errors/AppError';
-import { EnumRoleRedmineLabel } from '../Enums/EnumRoleRedmine';
 import { classToClass } from 'class-transformer';
 
 interface IRequest {
