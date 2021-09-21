@@ -1,4 +1,6 @@
+import { EnumRoleRedmineLabel } from '@modules/redmine/Enums/EnumRoleRedmine';
 import User from '@modules/user/typeorm/entities/User';
+import { Expose } from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
@@ -30,6 +32,11 @@ class RedmineUser {
 
   @CreateDateColumn()
   updatedAt: Date;
+
+  @Expose({ name: 'roleLabel' })
+  public getRoleLabel(): string {
+    return EnumRoleRedmineLabel.get(this.role) ?? '';
+  }
 }
 
 export default RedmineUser;

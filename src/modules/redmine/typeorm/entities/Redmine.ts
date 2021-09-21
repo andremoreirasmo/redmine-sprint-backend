@@ -1,3 +1,4 @@
+import { Exclude, Expose } from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
@@ -19,11 +20,13 @@ class Redmine {
   url: string;
 
   @Column()
+  @Expose({ groups: ['owner', 'admin'] })
   apiKey: string;
 
   @OneToMany(() => RedmineUser, redmine_user => redmine_user.redmine, {
     cascade: true,
   })
+  @Expose({ groups: ['owner', 'admin'] })
   redmine_users: RedmineUser[];
 
   @CreateDateColumn()

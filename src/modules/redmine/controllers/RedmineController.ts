@@ -7,9 +7,10 @@ import UpdateRedmineService from '../services/UpdateRedmineService';
 
 export default class RedmineController {
   public async index(request: Request, response: Response): Promise<Response> {
+    const user_id = request.user.id;
     const listRedmines = new ListRedmineService();
 
-    const redmines = await listRedmines.execute();
+    const redmines = await listRedmines.execute({ user_id });
 
     return response.json(redmines);
   }

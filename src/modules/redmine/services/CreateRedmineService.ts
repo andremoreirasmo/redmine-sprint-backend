@@ -1,8 +1,11 @@
 import { getCustomRepository } from 'typeorm';
 import { RedmineRepository } from '../typeorm/repositories/RedmineRepository';
 import Redmine from '../typeorm/entities/Redmine';
-import EnumRoleRedmine from '../Enums/EnumRoleRedmine';
+import EnumRoleRedmine, {
+  EnumRoleRedmineLabel,
+} from '../Enums/EnumRoleRedmine';
 import RedmineUser from '../typeorm/entities/RedmineUser';
+import { classToClass } from 'class-transformer';
 
 interface IRequest {
   user_id: string;
@@ -37,7 +40,9 @@ class CreateRedmineService {
 
     await redmineRepository.save(redmine);
 
-    return redmine;
+    return classToClass(redmine, {
+      groups: [redmineUser.getRoleLabel()],
+    });
   }
 }
 

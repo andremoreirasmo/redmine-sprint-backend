@@ -10,4 +10,14 @@ export class RedmineRepository extends Repository<Redmine> {
 
     return redmine;
   }
+
+  public async findByUserId(user_id: string): Promise<Redmine[]> {
+    const redmines = this.createQueryBuilder('redmine')
+      .leftJoinAndSelect('redmine.redmine_users', 'redmine_users')
+      .leftJoinAndSelect('redmine_users.user', 'usr')
+      .where('usr.id = :user_id', { user_id })
+      .getMany();
+
+    return redmines;
+  }
 }
