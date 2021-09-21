@@ -3,7 +3,6 @@ import { RedmineRepository } from '../typeorm/repositories/RedmineRepository';
 import Redmine from '../typeorm/entities/Redmine';
 import AppError from '@shared/errors/AppError';
 import { classToClass } from 'class-transformer';
-import { EnumRoleRedmineLabel } from '../Enums/EnumRoleRedmine';
 
 interface IRequest {
   user_id: string;
