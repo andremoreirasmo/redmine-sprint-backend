@@ -15,6 +15,12 @@ userRouter.post(
       name: Joi.string().required(),
       email: Joi.string().email().required(),
       password: Joi.string().required(),
+      passwordConfirmation: Joi.string()
+        .valid(Joi.ref('password'))
+        .when('password', {
+          is: Joi.exist(),
+          then: Joi.required(),
+        }),
     },
   }),
   userController.create,
