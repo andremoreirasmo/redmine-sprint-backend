@@ -9,6 +9,7 @@ import UserRepository from '../typeorm/repositories/UserRepository';
 interface IRequest {
   email: string;
   password: string;
+  rememberMe: boolean;
 }
 
 interface IResponse {
@@ -17,7 +18,11 @@ interface IResponse {
 }
 
 class CreateSessionsService {
-  public async execute({ email, password }: IRequest): Promise<IResponse> {
+  public async execute({
+    email,
+    password,
+    rememberMe,
+  }: IRequest): Promise<IResponse> {
     const authConfig = AuthCofig();
     const userRepository = getCustomRepository(UserRepository);
     const user = await userRepository.findByEmail(email);
@@ -36,7 +41,7 @@ class CreateSessionsService {
 
     const token = sign({}, authConfig.jwt.secret, {
       subject: user.id,
-      expiresIn: authConfig.jwt.expiresIn,
+      expiresIn: rememberMe ? '365d' : authConfig.jwt.expiresIn,
     });
 
     return { user, token };
