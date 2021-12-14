@@ -29,6 +29,9 @@ class Redmine {
   @Expose({ groups: ['owner', 'admin'] })
   redmine_users: RedmineUser[];
 
+  @Column('int')
+  project_import: number;
+
   @CreateDateColumn()
   createdAt: Date;
 

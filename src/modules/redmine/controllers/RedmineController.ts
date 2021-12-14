@@ -28,11 +28,17 @@ export default class RedmineController {
 
   public async create(request: Request, response: Response): Promise<Response> {
     const user_id = request.user.id;
-    const { name, url, apiKey } = request.body;
+    const { name, url, apiKey, project_import } = request.body;
 
     const createRedmine = new CreateRedmineService();
 
-    const redmine = await createRedmine.execute({ user_id, name, url, apiKey });
+    const redmine = await createRedmine.execute({
+      user_id,
+      name,
+      url,
+      apiKey,
+      project_import,
+    });
 
     return response.json(redmine);
   }
@@ -40,7 +46,7 @@ export default class RedmineController {
   public async update(request: Request, response: Response): Promise<Response> {
     const user_id = request.user.id;
     const { id } = request.params;
-    const { name, url, apiKey } = request.body;
+    const { name, url, apiKey, project_import } = request.body;
 
     const updateRedmine = new UpdateRedmineService();
 
@@ -50,6 +56,7 @@ export default class RedmineController {
       name,
       url,
       apiKey,
+      project_import,
     });
 
     return response.json(redmine);

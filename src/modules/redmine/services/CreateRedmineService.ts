@@ -9,6 +9,7 @@ interface IRequest {
   name: string;
   url: string;
   apiKey: string;
+  project_import: number;
 }
 
 class CreateRedmineService {
@@ -17,6 +18,7 @@ class CreateRedmineService {
     name,
     url,
     apiKey,
+    project_import,
   }: IRequest): Promise<Redmine> {
     const redmineRepository = getCustomRepository(RedmineRepository);
 
@@ -24,6 +26,7 @@ class CreateRedmineService {
       name,
       url,
       apiKey,
+      project_import,
     });
 
     const redmineUser = {

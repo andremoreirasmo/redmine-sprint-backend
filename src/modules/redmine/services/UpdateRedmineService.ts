@@ -10,6 +10,7 @@ interface IRequest {
   name: string;
   url: string;
   apiKey: string;
+  project_import: number;
 }
 
 class UpdateRedmineService {
@@ -19,6 +20,7 @@ class UpdateRedmineService {
     name,
     url,
     apiKey,
+    project_import,
   }: IRequest): Promise<Redmine> {
     const redmineRepository = getCustomRepository(RedmineRepository);
 
@@ -39,6 +41,7 @@ class UpdateRedmineService {
     redmine.name = name;
     redmine.url = url;
     redmine.apiKey = apiKey;
+    redmine.project_import = project_import;
 
     await redmineRepository.save(redmine);
 
