@@ -2,10 +2,9 @@ import AppError from '@shared/errors/AppError';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import AuthCofig from '@config/auth';
-import { getCustomRepository } from 'typeorm';
-import User from '../typeorm/entities/User';
-import UserRepository from '../typeorm/repositories/UserRepository';
-
+import { IUser } from '../domain/models/IUser';
+import { IUserRepository } from '../domain/repositories/IUserRepository';
+import { inject, injectable } from 'tsyringe';
 interface IRequest {
   email: string;
   password: string;
@@ -13,19 +12,24 @@ interface IRequest {
 }
 
 interface IResponse {
-  user: User;
+  user: IUser;
   token: string;
 }
-
+@injectable()
 class CreateSessionsService {
+  constructor(
+    @inject('UserRepository')
+    private userRepository: IUserRepository,
+  ) {}
+
   public async execute({
     email,
     password,
     rememberMe,
   }: IRequest): Promise<IResponse> {
     const authConfig = AuthCofig();
-    const userRepository = getCustomRepository(UserRepository);
-    const user = await userRepository.findByEmail(email);
+
+    const user = await this.userRepository.findByEmail(email);
 
     if (!user) {
       throw new AppError(`Incorrect email/password combination.`, 401);

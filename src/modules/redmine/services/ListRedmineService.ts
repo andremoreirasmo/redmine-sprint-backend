@@ -1,17 +1,21 @@
-import { getCustomRepository } from 'typeorm';
-import { RedmineRepository } from '../typeorm/repositories/RedmineRepository';
-import Redmine from '../typeorm/entities/Redmine';
 import { classToClass } from 'class-transformer';
+import { inject, injectable } from 'tsyringe';
+import { IRedmine } from '../domain/models/IRedmine';
+import { IRedmineRepository } from '../domain/repositories/IRedmineRepository';
 
 interface IRequest {
   user_id: string;
 }
 
+@injectable()
 class ListRedmineService {
-  public async execute({ user_id }: IRequest): Promise<Redmine[]> {
-    const redmineRepository = getCustomRepository(RedmineRepository);
+  constructor(
+    @inject('RedmineRepository')
+    private redmineRepository: IRedmineRepository,
+  ) {}
 
-    const redmines = await redmineRepository.findByUserId(user_id);
+  public async execute({ user_id }: IRequest): Promise<IRedmine[]> {
+    const redmines = await this.redmineRepository.findByUserId(user_id);
 
     const redmineTransformed = redmines.map(redmine => {
       const redmineUser = redmine.redmine_users.find(

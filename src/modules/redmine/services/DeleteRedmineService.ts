@@ -1,18 +1,22 @@
-import { getCustomRepository } from 'typeorm';
-import { RedmineRepository } from '../typeorm/repositories/RedmineRepository';
 import AppError from '@shared/errors/AppError';
 import EnumRoleRedmine from '../enums/EnumRoleRedmine';
+import { inject, injectable } from 'tsyringe';
+import { IRedmineRepository } from '../domain/repositories/IRedmineRepository';
 
 interface IRequest {
   user_id: string;
   id: string;
 }
 
+@injectable()
 class DeleteRedmineService {
-  public async execute({ user_id, id }: IRequest): Promise<void> {
-    const redmineRepository = getCustomRepository(RedmineRepository);
+  constructor(
+    @inject('RedmineRepository')
+    private redmineRepository: IRedmineRepository,
+  ) {}
 
-    const redmine = await redmineRepository.findById(id);
+  public async execute({ user_id, id }: IRequest): Promise<void> {
+    const redmine = await this.redmineRepository.findById(id);
 
     if (!redmine) {
       throw new AppError('Redmine not found.');
@@ -26,7 +30,7 @@ class DeleteRedmineService {
       throw new AppError('User without permission to perform action.', 401);
     }
 
-    redmineRepository.remove(redmine);
+    this.redmineRepository.remove(redmine);
   }
 }
 

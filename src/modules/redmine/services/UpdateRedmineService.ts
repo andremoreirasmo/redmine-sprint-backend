@@ -1,8 +1,8 @@
-import { getCustomRepository } from 'typeorm';
-import { RedmineRepository } from '../typeorm/repositories/RedmineRepository';
-import Redmine from '../typeorm/entities/Redmine';
 import AppError from '@shared/errors/AppError';
 import { classToClass } from 'class-transformer';
+import { inject, injectable } from 'tsyringe';
+import { IRedmine } from '../domain/models/IRedmine';
+import { IRedmineRepository } from '../domain/repositories/IRedmineRepository';
 
 interface IRequest {
   user_id: string;
@@ -12,8 +12,13 @@ interface IRequest {
   apiKey: string;
   project_import: number;
 }
-
+@injectable()
 class UpdateRedmineService {
+  constructor(
+    @inject('RedmineRepository')
+    private redmineRepository: IRedmineRepository,
+  ) {}
+
   public async execute({
     user_id,
     id,
@@ -21,10 +26,8 @@ class UpdateRedmineService {
     url,
     apiKey,
     project_import,
-  }: IRequest): Promise<Redmine> {
-    const redmineRepository = getCustomRepository(RedmineRepository);
-
-    const redmine = await redmineRepository.findById(id);
+  }: IRequest): Promise<IRedmine> {
+    const redmine = await this.redmineRepository.findById(id);
 
     if (!redmine) {
       throw new AppError('Redmine not found.');
@@ -43,7 +46,7 @@ class UpdateRedmineService {
     redmine.apiKey = apiKey;
     redmine.project_import = project_import;
 
-    await redmineRepository.save(redmine);
+    await this.redmineRepository.save(redmine);
 
     return classToClass(redmine, {
       groups: [redmineUser.getRoleLabel()],

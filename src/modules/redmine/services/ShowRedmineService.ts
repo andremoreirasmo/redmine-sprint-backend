@@ -1,19 +1,22 @@
-import { getCustomRepository } from 'typeorm';
-import { RedmineRepository } from '../typeorm/repositories/RedmineRepository';
-import Redmine from '../typeorm/entities/Redmine';
 import AppError from '@shared/errors/AppError';
 import { classToClass } from 'class-transformer';
+import { IRedmine } from '../domain/models/IRedmine';
+import { inject, injectable } from 'tsyringe';
+import { IRedmineRepository } from '../domain/repositories/IRedmineRepository';
 
 interface IRequest {
   user_id: string;
   id: string;
 }
-
+@injectable()
 class ShowRedmineService {
-  public async execute({ user_id, id }: IRequest): Promise<Redmine> {
-    const redmineRepository = getCustomRepository(RedmineRepository);
+  constructor(
+    @inject('RedmineRepository')
+    private redmineRepository: IRedmineRepository,
+  ) {}
 
-    const redmine = await redmineRepository.findById(id);
+  public async execute({ user_id, id }: IRequest): Promise<IRedmine> {
+    const redmine = await this.redmineRepository.findById(id);
 
     if (!redmine) {
       throw new AppError('Redmine not found.');
