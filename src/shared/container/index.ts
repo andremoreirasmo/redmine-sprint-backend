@@ -8,6 +8,8 @@ import { UserRepository } from '@modules/user/infra/typeorm/repositories/UserRep
 import { IUserTokenRepository } from './../../modules/user/domain/repositories/IUserTokenRepository';
 import { UserTokenRepository } from '@modules/user/infra/typeorm/repositories/UserTokenRepository';
 
+import '@modules/user/providers';
+
 container.registerSingleton<IRedmineRepository>(
   'RedmineRepository',
   RedmineRepository,
