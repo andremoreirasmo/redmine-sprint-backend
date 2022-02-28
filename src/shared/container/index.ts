@@ -9,6 +9,7 @@ import { IUserTokenRepository } from './../../modules/user/domain/repositories/I
 import { UserTokenRepository } from '@modules/user/infra/typeorm/repositories/UserTokenRepository';
 
 import '@modules/user/providers';
+import '@modules/redmine/providers';
 
 container.registerSingleton<IRedmineRepository>(
   'RedmineRepository',

@@ -46,6 +46,7 @@
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files"
   },
   "dependencies": {
+    "axios": "^0.26.0",
     "bcryptjs": "^2.4.3",
     "celebrate": "^15.0.0",
     "class-transformer": "^0.4.0",
