@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import { IApiProjetcRedmine } from '../providers/ApiRedmineProvider/models/IApiProjetcRedmine';
-import { IApiRedmineProvider } from '../providers/ApiRedmineProvider/models/IApiRedmineProvider';
+import { IApiRedmineGetProjectsProvider } from '../providers/ApiRedmineProvider/models/IApiRedmineGetProjectsProvider';
 
 interface IRequest {
   url: string;
@@ -10,15 +10,15 @@ interface IRequest {
 @injectable()
 class ListProjectsApiRedmineService {
   constructor(
-    @inject('ApiRedmineProvider')
-    private apiRedmineProvider: IApiRedmineProvider,
+    @inject('ApiRedmineGetProjectsProvider')
+    private apiRedmineGetProjectsProvider: IApiRedmineGetProjectsProvider,
   ) {}
 
   public async execute({
     url,
     apiKey,
   }: IRequest): Promise<IApiProjetcRedmine[]> {
-    const projects = await this.apiRedmineProvider.getProjects(url, apiKey);
+    const projects = await this.apiRedmineGetProjectsProvider.get(url, apiKey);
 
     return projects;
   }

@@ -5,6 +5,7 @@ import DeleteRedmineService from '../../../services/DeleteRedmineService';
 import ListRedmineService from '../../../services/ListRedmineService';
 import ShowRedmineService from '../../../services/ShowRedmineService';
 import UpdateRedmineService from '../../../services/UpdateRedmineService';
+import ImportUsersRedmineService from '@modules/redmine/services/ImportUsersRedmineService';
 
 export default class RedmineController {
   public async index(request: Request, response: Response): Promise<Response> {
@@ -41,6 +42,11 @@ export default class RedmineController {
       project_import,
     });
 
+    const importUsersRedmineService = container.resolve(
+      ImportUsersRedmineService,
+    );
+    importUsersRedmineService.execute(redmine);
+
     return response.json(redmine);
   }
 
@@ -60,6 +66,11 @@ export default class RedmineController {
       project_import,
     });
 
+    const importUsersRedmineService = container.resolve(
+      ImportUsersRedmineService,
+    );
+    await importUsersRedmineService.execute(redmine);
+
     return response.json(redmine);
   }
 
@@ -70,6 +81,26 @@ export default class RedmineController {
     const deleteRedmine = container.resolve(DeleteRedmineService);
 
     await deleteRedmine.execute({ user_id, id });
+
+    return response.status(204).json();
+  }
+
+  public async syncUsersRedmine(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const user_id = request.user.id;
+    const { id } = request.params;
+
+    const showRedmine = container.resolve(ShowRedmineService);
+
+    const redmine = await showRedmine.execute({ user_id, id });
+
+    const importUsersRedmineService = container.resolve(
+      ImportUsersRedmineService,
+    );
+
+    await importUsersRedmineService.execute(redmine);
 
     return response.status(204).json();
   }

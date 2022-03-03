@@ -1,3 +1,4 @@
+import { IRedmine } from '@modules/redmine/domain/models/IRedmine';
 import { Expose } from 'class-transformer';
 import {
   Column,
@@ -7,7 +8,6 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import RedmineUser from './RedmineUser';
-import { IRedmine } from '@modules/redmine/domain/models/IRedmine';
 
 @Entity('redmine')
 class Redmine implements IRedmine {

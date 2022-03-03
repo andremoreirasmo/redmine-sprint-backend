@@ -1,17 +1,14 @@
 import AppError from '@shared/errors/AppError';
 import axios, { AxiosError } from 'axios';
 import { IApiProjetcRedmine } from '../models/IApiProjetcRedmine';
-import { IApiRedmineProvider } from '../models/IApiRedmineProvider';
+import { IApiRedmineGetProjectsProvider } from '../models/IApiRedmineGetProjectsProvider';
 
 interface IResponseApi {
   projects: IApiProjetcRedmine[];
 }
 
-class ApiRedmineProvider implements IApiRedmineProvider {
-  public async getProjects(
-    url: string,
-    apiKey: string,
-  ): Promise<IApiProjetcRedmine[]> {
+class ApiRedmineGetProjectsProvider implements IApiRedmineGetProjectsProvider {
+  public async get(url: string, apiKey: string): Promise<IApiProjetcRedmine[]> {
     const api = axios.create({
       baseURL: url,
     });
@@ -38,4 +35,4 @@ class ApiRedmineProvider implements IApiRedmineProvider {
   }
 }
 
-export default ApiRedmineProvider;
+export default ApiRedmineGetProjectsProvider;

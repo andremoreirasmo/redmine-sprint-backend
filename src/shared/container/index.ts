@@ -10,12 +10,17 @@ import { UserTokenRepository } from '@modules/user/infra/typeorm/repositories/Us
 
 import '@modules/user/providers';
 import '@modules/redmine/providers';
+import { IRedmineUserImportRepository } from '@modules/redmine/domain/repositories/IRedmineUserImportRepository';
+import { RedmineUserImportRepository } from '@modules/redmine/infra/typeorm/repositories/RedmineUserImportRepository';
 
 container.registerSingleton<IRedmineRepository>(
   'RedmineRepository',
   RedmineRepository,
 );
-
+container.registerSingleton<IRedmineUserImportRepository>(
+  'RedmineUserImportRepository',
+  RedmineUserImportRepository,
+);
 container.registerSingleton<IUserRepository>('UserRepository', UserRepository);
 container.registerSingleton<IUserTokenRepository>(
   'UserTokenRepository',

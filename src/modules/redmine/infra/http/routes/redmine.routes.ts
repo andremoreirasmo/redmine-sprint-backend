@@ -46,6 +46,8 @@ redmineRouter.put(
   redmineController.update,
 );
 
+redmineRouter.put('/syncUsersRedmine/:id', redmineController.syncUsersRedmine);
+
 redmineRouter.delete(
   '/:id',
   celebrate({
