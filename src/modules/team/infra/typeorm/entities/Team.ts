@@ -1,25 +1,22 @@
-import Redmine from '@modules/redmine/infra/typeorm/entities/Redmine';
+import { ITeam } from '../../../domain/models/ITeam';
 
 import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
-  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
 @Entity('team')
-class Team {
+class Team implements ITeam {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
   name: string;
 
-  @ManyToOne(() => Redmine)
-  @JoinColumn({ name: 'redmine_id' })
-  redmine: Redmine;
+  @Column('uuid')
+  redmine_id: string;
 
   @Column('int')
   hours_per_point: number;

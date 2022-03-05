@@ -1,4 +1,4 @@
-import EnumRoleRedmine from '../enums/EnumRoleRedmine';
+import EnumRoleRedmine from '../domain/enums/EnumRoleRedmine';
 import { IRedmineRepository } from '../domain/repositories/IRedmineRepository';
 import { IRedmine } from '../domain/models/IRedmine';
 import { IRedmineUser } from '../domain/models/IRedmineUser';

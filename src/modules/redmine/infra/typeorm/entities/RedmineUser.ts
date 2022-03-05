@@ -1,4 +1,4 @@
-import { EnumRoleRedmineLabel } from '@modules/redmine/enums/EnumRoleRedmine';
+import { EnumRoleRedmineLabel } from '@modules/redmine/domain/enums/EnumRoleRedmine';
 import User from '@modules/user/infra/typeorm/entities/User';
 import { Expose } from 'class-transformer';
 import {

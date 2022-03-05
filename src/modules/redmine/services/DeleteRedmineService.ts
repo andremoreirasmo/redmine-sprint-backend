@@ -1,5 +1,5 @@
 import AppError from '@shared/errors/AppError';
-import EnumRoleRedmine from '../enums/EnumRoleRedmine';
+import EnumRoleRedmine from '../domain/enums/EnumRoleRedmine';
 import { inject, injectable } from 'tsyringe';
 import { IRedmineRepository } from '../domain/repositories/IRedmineRepository';
 
