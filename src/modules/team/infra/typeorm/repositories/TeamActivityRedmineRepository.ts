@@ -13,20 +13,20 @@ export class TeamActivityRedmineRepository
   }
 
   public async create(
-    team: ITeamActivityRedmine,
-  ): Promise<ITeamActivityRedmine> {
-    const teamCreate = this.ormRepository.create(team);
+    teamActivities: ITeamActivityRedmine[],
+  ): Promise<ITeamActivityRedmine[]> {
+    const savedteamActivities = this.ormRepository.create(teamActivities);
 
-    await this.ormRepository.save(teamCreate);
+    await this.ormRepository.save(savedteamActivities);
 
-    return teamCreate;
+    return savedteamActivities;
   }
 
   public async save(
-    teamActivity: ITeamActivityRedmine,
-  ): Promise<ITeamActivityRedmine> {
-    await this.ormRepository.save(teamActivity);
+    teamActivities: ITeamActivityRedmine[],
+  ): Promise<ITeamActivityRedmine[]> {
+    await this.ormRepository.save(teamActivities);
 
-    return teamActivity;
+    return teamActivities;
   }
 }

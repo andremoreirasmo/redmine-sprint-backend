@@ -11,18 +11,18 @@ export class TeamActivityRepository implements ITeamActivityRepository {
   }
 
   public async create(
-    teamsActivity: Omit<ITeamActivity, 'id' | 'createdAt' | 'updatedAt'>[],
+    teamActivities: Omit<ITeamActivity, 'id' | 'createdAt' | 'updatedAt'>[],
   ): Promise<ITeamActivity[]> {
-    const teamsActivityCreate = this.ormRepository.create(teamsActivity);
+    const teamActivitiesCreate = this.ormRepository.create(teamActivities);
 
-    await this.ormRepository.save(teamsActivityCreate);
+    await this.ormRepository.save(teamActivitiesCreate);
 
-    return teamsActivityCreate;
+    return teamActivitiesCreate;
   }
 
-  public async save(teamActivity: ITeamActivity[]): Promise<ITeamActivity[]> {
-    const teams this.ormRepository.save(teamActivity);
+  public async save(teamActivities: ITeamActivity[]): Promise<ITeamActivity[]> {
+    await this.ormRepository.save(teamActivities);
 
-    return teamActivity;
+    return teamActivities;
   }
 }
