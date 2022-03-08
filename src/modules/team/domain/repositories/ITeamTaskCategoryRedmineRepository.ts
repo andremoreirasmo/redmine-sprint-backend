@@ -1,8 +1,10 @@
 import { ITeamTaskCategoryRedmine } from '../models/ITeamTaskCategoryRedmine';
 
 export interface ITeamTaskCategoryRedmineRepository {
-  create(team: ITeamTaskCategoryRedmine): Promise<ITeamTaskCategoryRedmine>;
+  create(
+    categoriesRedmine: ITeamTaskCategoryRedmine[],
+  ): Promise<ITeamTaskCategoryRedmine[]>;
   save(
-    teamActivity: ITeamTaskCategoryRedmine,
-  ): Promise<ITeamTaskCategoryRedmine>;
+    categoriesRedmine: ITeamTaskCategoryRedmine[],
+  ): Promise<ITeamTaskCategoryRedmine[]>;
 }

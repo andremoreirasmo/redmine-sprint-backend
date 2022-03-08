@@ -42,12 +42,42 @@ class CreateTeamService {
       activitiesWithTeamId,
     );
 
-    const activitiesWithActivityId = activities.map((e, i) => {
-      const savedActivity = savedActivities[i];
-      return { ...e, teamActivity_id: savedActivity.id };
+    const activitiesRedmineWithActivityId = activities
+      .map((activity, i) => {
+        const savedActivity = savedActivities[i];
+
+        return activity.redmine_activities.map(activityRedmine => {
+          return { ...activityRedmine, teamActivity_id: savedActivity.id };
+        });
+      })
+      .flatMap(activityRedmine => activityRedmine);
+
+    await this.teamActivityRedmineRep.create(activitiesRedmineWithActivityId);
+
+    const categoriesWithTeamId = categories.map(category => {
+      return { ...category, team_id: team.id };
     });
 
-    await this.teamActivityRedmineRep.create(activitiesWithActivityId);
+    const savedCategories = await this.teamTaskCategoryRep.create(
+      categoriesWithTeamId,
+    );
+
+    const categoriesRedmineWithActivityId = categories
+      .map((category, i) => {
+        const savedCategory = savedCategories[i];
+
+        return category.redmine_categories.map(categoryRedmine => {
+          return {
+            ...categoryRedmine,
+            team_task_category_id: savedCategory.id,
+          };
+        });
+      })
+      .flatMap(categoryRedmine => categoryRedmine);
+
+    await this.teamTaskCategoryRedmineRep.create(
+      categoriesRedmineWithActivityId,
+    );
 
     return team;
   }
