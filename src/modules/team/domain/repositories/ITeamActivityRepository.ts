@@ -1,4 +1,4 @@
-import { ICreateTeamActivity } from '../models/ICreateTeamActivity';
+import { ICreateTeamActivity } from '../models/CreateTeam/ICreateTeamActivity';
 import { ITeamActivity } from '../models/ITeamActivity';
 
 export interface ITeamActivityRepository {

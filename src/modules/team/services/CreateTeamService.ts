@@ -1,5 +1,12 @@
 import { inject, injectable } from 'tsyringe';
-import { ICreateTeamRequest } from '../domain/models/ICreateTeamRequest';
+import {
+  ICreateTeamRequest,
+  ITeamActivityRequest,
+  ITeamTaskCategoryRequest,
+} from '../domain/models/CreateTeam/ICreateTeamRequest';
+import { ITeamActivityDTO } from '../domain/models/DTO/ITeamActivityDTO';
+import { ITeamDTO } from '../domain/models/DTO/ITeamDTO';
+import { ITeamTaskCategoryDTO } from '../domain/models/DTO/ITeamTaskCategoryDTO';
 import { ITeamActivityRedmineRepository } from '../domain/repositories/ITeamActivityRedmineRepository';
 import { ITeamActivityRepository } from '../domain/repositories/ITeamActivityRepository';
 import { ITeamRepository } from '../domain/repositories/ITeamRepository';
@@ -13,73 +20,104 @@ class CreateTeamService {
     private teamRepository: ITeamRepository,
     @inject('TeamActivityRepository')
     private teamActivityRep: ITeamActivityRepository,
-    @inject('TeamActivityRepository')
+    @inject('TeamActivityRedmineRepository')
     private teamActivityRedmineRep: ITeamActivityRedmineRepository,
-    @inject('TeamActivityRepository')
+    @inject('TeamTaskCategoryRepository')
     private teamTaskCategoryRep: ITeamTaskCategoryRepository,
-    @inject('TeamActivityRepository')
+    @inject('TeamTaskCategoryRedmineRepository')
     private teamTaskCategoryRedmineRep: ITeamTaskCategoryRedmineRepository,
   ) {}
 
   public async execute({
-    name,
-    redmine_id,
-    hours_per_point,
     activities,
     categories,
-  }: ICreateTeamRequest) {
+    ...rest
+  }: ICreateTeamRequest): Promise<ITeamDTO> {
     const team = await this.teamRepository.create({
-      name,
-      redmine_id,
-      hours_per_point,
+      ...rest,
     });
 
-    const activitiesWithTeamId = activities.map(activity => {
-      return { ...activity, team_id: team.id };
-    });
+    const saveActivities = await this.saveActivities(team.id, activities);
 
-    const savedActivities = await this.teamActivityRep.create(
-      activitiesWithTeamId,
-    );
+    const saveCategories = await this.saveCategories(team.id, categories);
 
-    const activitiesRedmineWithActivityId = activities
-      .map((activity, i) => {
-        const savedActivity = savedActivities[i];
+    return { ...team, activities: saveActivities, categories: saveCategories };
+  }
 
-        return activity.redmine_activities.map(activityRedmine => {
-          return { ...activityRedmine, teamActivity_id: savedActivity.id };
-        });
-      })
-      .flatMap(activityRedmine => activityRedmine);
-
-    await this.teamActivityRedmineRep.create(activitiesRedmineWithActivityId);
-
+  private async saveCategories(
+    team_id: string,
+    categories: ITeamTaskCategoryRequest[],
+  ) {
     const categoriesWithTeamId = categories.map(category => {
-      return { ...category, team_id: team.id };
+      return { ...category, team_id };
     });
 
     const savedCategories = await this.teamTaskCategoryRep.create(
       categoriesWithTeamId,
     );
 
-    const categoriesRedmineWithActivityId = categories
-      .map((category, i) => {
+    const categoriesDTO = await Promise.all(
+      categories.map(async (category, i) => {
         const savedCategory = savedCategories[i];
 
-        return category.redmine_categories.map(categoryRedmine => {
-          return {
-            ...categoryRedmine,
-            team_task_category_id: savedCategory.id,
-          };
-        });
-      })
-      .flatMap(categoryRedmine => categoryRedmine);
+        const categoriesRedmineWithOwnerId = category.redmine_categories.map(
+          categoryRedmine => {
+            return {
+              ...categoryRedmine,
+              team_task_category_id: savedCategory.id,
+            };
+          },
+        );
 
-    await this.teamTaskCategoryRedmineRep.create(
-      categoriesRedmineWithActivityId,
+        const savedCategoriesRedmine =
+          await this.teamTaskCategoryRedmineRep.create(
+            categoriesRedmineWithOwnerId,
+          );
+
+        return {
+          ...savedCategory,
+          redmine_categories: savedCategoriesRedmine,
+        } as ITeamTaskCategoryDTO;
+      }),
     );
 
-    return team;
+    return categoriesDTO;
+  }
+
+  private async saveActivities(
+    team_id: string,
+    activities: ITeamActivityRequest[],
+  ) {
+    const activitiesWithTeamId = activities.map(activity => {
+      return { ...activity, team_id };
+    });
+
+    const savedActivities = await this.teamActivityRep.create(
+      activitiesWithTeamId,
+    );
+
+    const activitiesDTO = await Promise.all(
+      activities.map(async (activity, i) => {
+        const savedActivity = savedActivities[i];
+
+        const activitiesRedmineWithOwnerId = activity.redmine_activities.map(
+          activityRedmine => {
+            return { ...activityRedmine, teamActivity_id: savedActivity.id };
+          },
+        );
+
+        const savedActivitiesRedmine = await this.teamActivityRedmineRep.create(
+          activitiesRedmineWithOwnerId,
+        );
+
+        return {
+          ...savedActivity,
+          redmine_activities: savedActivitiesRedmine,
+        } as ITeamActivityDTO;
+      }),
+    );
+
+    return activitiesDTO;
   }
 }
 

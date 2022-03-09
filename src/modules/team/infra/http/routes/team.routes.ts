@@ -25,9 +25,25 @@ teamRouter.post(
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),
-      url: Joi.string().required(),
-      apiKey: Joi.string().required(),
-      project_import: Joi.number().required(),
+      redmine_id: Joi.string().required(),
+      hours_per_point: Joi.number().required(),
+      activities: Joi.array()
+        .items({
+          name: Joi.string().required(),
+          redmine_activities: Joi.array()
+            .items({ redmine_activity_id: Joi.number().required() })
+            .required(),
+        })
+        .required(),
+      categories: Joi.array()
+        .items({
+          name: Joi.string().required(),
+          productive: Joi.boolean().required(),
+          redmine_categories: Joi.array()
+            .items({ redmineCategoryId: Joi.number().required() })
+            .required(),
+        })
+        .required(),
     },
   }),
   teamController.create,

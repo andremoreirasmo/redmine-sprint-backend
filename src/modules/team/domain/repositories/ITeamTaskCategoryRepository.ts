@@ -1,4 +1,4 @@
-import { ICreateTeamTaskCategoryRequest } from '../models/ICreateTeamTaskCategoryRequest';
+import { ICreateTeamTaskCategoryRequest } from '../models/CreateTeam/ICreateTeamTaskCategoryRequest';
 import { ITeamTaskCategory } from '../models/ITeamTaskCategory';
 
 export interface ITeamTaskCategoryRepository {

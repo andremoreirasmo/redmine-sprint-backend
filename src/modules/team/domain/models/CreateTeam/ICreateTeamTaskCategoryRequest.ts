@@ -1,4 +1,4 @@
-import { ITeamTaskCategory } from './ITeamTaskCategory';
+import { ITeamTaskCategory } from '../ITeamTaskCategory';
 
 export type ICreateTeamTaskCategoryRequest = Omit<
   ITeamTaskCategory,

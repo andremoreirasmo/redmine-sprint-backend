@@ -1,3 +1,4 @@
+import { ICreateTeamActivity } from '@modules/team/domain/models/CreateTeam/ICreateTeamActivity';
 import { ITeamActivity } from '@modules/team/domain/models/ITeamActivity';
 import { ITeamActivityRepository } from '@modules/team/domain/repositories/ITeamActivityRepository';
 import { getRepository, Repository } from 'typeorm';
@@ -11,7 +12,7 @@ export class TeamActivityRepository implements ITeamActivityRepository {
   }
 
   public async create(
-    teamActivities: Omit<ITeamActivity, 'id' | 'createdAt' | 'updatedAt'>[],
+    teamActivities: ICreateTeamActivity[],
   ): Promise<ITeamActivity[]> {
     const teamActivitiesCreate = this.ormRepository.create(teamActivities);
 

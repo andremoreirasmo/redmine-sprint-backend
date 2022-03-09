@@ -1,3 +1,4 @@
+import { ICreateTeam } from '@modules/team/domain/models/CreateTeam/ICreateTeam';
 import { ITeam } from '@modules/team/domain/models/ITeam';
 import { ITeamRepository } from '@modules/team/domain/repositories/ITeamRepository';
 import { getRepository, Repository } from 'typeorm';
@@ -10,9 +11,7 @@ export class TeamRepository implements ITeamRepository {
     this.ormRepository = getRepository(Team);
   }
 
-  public async create(
-    team: Omit<ITeam, 'id' | 'createdAt' | 'updatedAt'>,
-  ): Promise<ITeam> {
+  public async create(team: ICreateTeam): Promise<ITeam> {
     const teamCreate = this.ormRepository.create(team);
 
     await this.ormRepository.save(teamCreate);

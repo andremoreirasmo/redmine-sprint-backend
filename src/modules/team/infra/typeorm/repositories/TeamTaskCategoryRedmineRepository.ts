@@ -1,3 +1,4 @@
+import { ICreateTeamTaskCategoryRedmineRequest } from '@modules/team/domain/models/CreateTeam/ICreateTeamTaskCategoryRedmineRequest';
 import { ITeamTaskCategoryRedmine } from '@modules/team/domain/models/ITeamTaskCategoryRedmine';
 import { ITeamTaskCategoryRedmineRepository } from '@modules/team/domain/repositories/ITeamTaskCategoryRedmineRepository';
 import { getRepository, Repository } from 'typeorm';
@@ -13,20 +14,21 @@ export class TeamTaskCategoryRedmineRepository
   }
 
   public async create(
-    team: ITeamTaskCategoryRedmine,
-  ): Promise<ITeamTaskCategoryRedmine> {
-    const teamCreate = this.ormRepository.create(team);
+    categoriesRedmine: ICreateTeamTaskCategoryRedmineRequest[],
+  ): Promise<ITeamTaskCategoryRedmine[]> {
+    const categoriesRedmineCreate =
+      this.ormRepository.create(categoriesRedmine);
 
-    await this.ormRepository.save(teamCreate);
+    await this.ormRepository.save(categoriesRedmineCreate);
 
-    return teamCreate;
+    return categoriesRedmineCreate;
   }
 
   public async save(
-    teamActivity: ITeamTaskCategoryRedmine,
-  ): Promise<ITeamTaskCategoryRedmine> {
-    await this.ormRepository.save(teamActivity);
+    categoriesRedmine: ITeamTaskCategoryRedmine[],
+  ): Promise<ITeamTaskCategoryRedmine[]> {
+    await this.ormRepository.save(categoriesRedmine);
 
-    return teamActivity;
+    return categoriesRedmine;
   }
 }

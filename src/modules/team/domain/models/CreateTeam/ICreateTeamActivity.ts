@@ -1,4 +1,4 @@
-import { ITeamActivity } from './ITeamActivity';
+import { ITeamActivity } from '../ITeamActivity';
 
 export type ICreateTeamActivity = Omit<
   ITeamActivity,

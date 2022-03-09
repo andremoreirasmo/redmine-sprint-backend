@@ -1,3 +1,4 @@
+import { ICreateTeamActivityRedmine } from '@modules/team/domain/models/CreateTeam/ICreateTeamActivityRedmine';
 import { ITeamActivityRedmine } from '@modules/team/domain/models/ITeamActivityRedmine';
 import { ITeamActivityRedmineRepository } from '@modules/team/domain/repositories/ITeamActivityRedmineRepository';
 import { getRepository, Repository } from 'typeorm';
@@ -13,9 +14,11 @@ export class TeamActivityRedmineRepository
   }
 
   public async create(
-    teamActivities: ITeamActivityRedmine[],
+    teamActivitiesRedmine: ICreateTeamActivityRedmine[],
   ): Promise<ITeamActivityRedmine[]> {
-    const savedteamActivities = this.ormRepository.create(teamActivities);
+    const savedteamActivities = this.ormRepository.create(
+      teamActivitiesRedmine,
+    );
 
     await this.ormRepository.save(savedteamActivities);
 
@@ -23,10 +26,10 @@ export class TeamActivityRedmineRepository
   }
 
   public async save(
-    teamActivities: ITeamActivityRedmine[],
+    teamActivitiesRedmine: ITeamActivityRedmine[],
   ): Promise<ITeamActivityRedmine[]> {
-    await this.ormRepository.save(teamActivities);
+    await this.ormRepository.save(teamActivitiesRedmine);
 
-    return teamActivities;
+    return teamActivitiesRedmine;
   }
 }

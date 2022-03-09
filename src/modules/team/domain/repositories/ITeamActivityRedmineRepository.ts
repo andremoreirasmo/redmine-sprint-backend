@@ -1,4 +1,4 @@
-import { ICreateTeamActivityRedmine } from '../models/ICreateTeamActivityRedmine';
+import { ICreateTeamActivityRedmine } from '../models/CreateTeam/ICreateTeamActivityRedmine';
 import { ITeamActivityRedmine } from '../models/ITeamActivityRedmine';
 
 export interface ITeamActivityRedmineRepository {

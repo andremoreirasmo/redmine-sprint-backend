@@ -29,20 +29,19 @@ export default class TeamController {
   // }
 
   public async create(request: Request, response: Response): Promise<Response> {
-    const user_id = request.user.id;
-    // const { name, url, apiKey, project_import } = request.body;
+    const { name, redmine_id, hours_per_point, activities, categories } =
+      request.body;
 
     const createTeam = container.resolve(CreateTeamService);
-    return response.status(204).json();
-    // const team = await createTeam.execute({
-    //   user_id,
-    //   name,
-    //   url,
-    //   apiKey,
-    //   project_import,
-    // });
+    const team = await createTeam.execute({
+      name,
+      redmine_id,
+      hours_per_point,
+      activities,
+      categories,
+    });
 
-    // return response.json(team);
+    return response.json(team);
   }
 
   // public async update(request: Request, response: Response): Promise<Response> {

@@ -1,3 +1,4 @@
+import { ICreateTeamTaskCategoryRequest } from '@modules/team/domain/models/CreateTeam/ICreateTeamTaskCategoryRequest';
 import { ITeamTaskCategory } from '@modules/team/domain/models/ITeamTaskCategory';
 import { ITeamTaskCategoryRepository } from '@modules/team/domain/repositories/ITeamTaskCategoryRepository';
 import { getRepository, Repository } from 'typeorm';
@@ -11,18 +12,18 @@ export class TeamTaskCategoryRepository implements ITeamTaskCategoryRepository {
   }
 
   public async create(
-    team: Omit<ITeamTaskCategory, 'createdAt, updatedAt'>,
-  ): Promise<ITeamTaskCategory> {
-    const teamCreate = this.ormRepository.create(team);
+    categories: ICreateTeamTaskCategoryRequest[],
+  ): Promise<ITeamTaskCategory[]> {
+    const categoriesCreate = this.ormRepository.create(categories);
 
-    await this.ormRepository.save(teamCreate);
+    await this.ormRepository.save(categoriesCreate);
 
-    return teamCreate;
+    return categoriesCreate;
   }
 
   public async save(
-    teamActivity: ITeamTaskCategory,
-  ): Promise<ITeamTaskCategory> {
+    teamActivity: ITeamTaskCategory[],
+  ): Promise<ITeamTaskCategory[]> {
     await this.ormRepository.save(teamActivity);
 
     return teamActivity;

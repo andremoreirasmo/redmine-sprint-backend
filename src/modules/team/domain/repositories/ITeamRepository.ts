@@ -1,6 +1,7 @@
+import { ICreateTeam } from '../models/CreateTeam/ICreateTeam';
 import { ITeam } from '../models/ITeam';
 
 export interface ITeamRepository {
-  create(user: Omit<ITeam, 'id' | 'createdAt' | 'updatedAt'>): Promise<ITeam>;
-  save(user: ITeam): Promise<ITeam>;
+  create(team: ICreateTeam): Promise<ITeam>;
+  save(team: ITeam): Promise<ITeam>;
 }
