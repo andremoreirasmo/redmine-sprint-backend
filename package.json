@@ -32,6 +32,7 @@
     "eslint-plugin-prettier": "3.2.0",
     "jest": "^27.5.1",
     "prettier": "^2.4.0",
+    "prisma": "^3.10.0",
     "ts-jest": "^27.1.3",
     "ts-node-dev": "^1.1.8",
     "tsconfig-paths": "^3.11.0",
@@ -42,7 +43,6 @@
     "dev": "ts-node-dev -r tsconfig-paths/register --inspect --transpile-only --ignore-watch node_modules src/shared/infra/http/server.ts",
     "lint": "eslint . --ext .ts",
     "lint-fix": "eslint . --ext .ts --fix",
-    "typeorm": "ts-node-dev -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files"
   },
   "dependencies": {
@@ -61,7 +61,6 @@
     "pg": "^8.7.1",
     "reflect-metadata": "^0.1.13",
     "tsyringe": "^4.6.0",
-    "typeorm": "^0.2.37",
     "uuid": "^8.3.2"
   }
 }
