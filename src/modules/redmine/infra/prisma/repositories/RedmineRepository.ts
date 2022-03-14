@@ -1,16 +1,8 @@
 import { ICreateRedmine } from '@modules/redmine/domain/models/ICreateRedmine';
 import { IRedmine } from '@modules/redmine/domain/models/IRedmine';
 import { IRedmineRepository } from '@modules/redmine/domain/repositories/IRedmineRepository';
-import { getRepository, Repository } from 'typeorm';
-import Redmine from '../entities/Redmine';
 
 export class RedmineRepository implements IRedmineRepository {
-  private ormRepository: Repository<Redmine>;
-
-  constructor() {
-    this.ormRepository = getRepository(Redmine);
-  }
-
   public async create({
     name,
     url,
