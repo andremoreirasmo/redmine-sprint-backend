@@ -34,7 +34,7 @@ class UpdateRedmineService {
     }
 
     const redmineUser = redmine.redmine_users.find(
-      redmine_user => redmine_user.user.id === user_id,
+      redmine_user => redmine_user.user_id === user_id,
     );
 
     if (!redmineUser) {

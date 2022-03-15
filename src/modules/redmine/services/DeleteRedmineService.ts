@@ -1,6 +1,6 @@
 import AppError from '@shared/errors/AppError';
-import EnumRoleRedmine from '../domain/enums/EnumRoleRedmine';
 import { inject, injectable } from 'tsyringe';
+import EnumRoleRedmine from '../domain/enums/EnumRoleRedmine';
 import { IRedmineRepository } from '../domain/repositories/IRedmineRepository';
 
 interface IRequest {
@@ -23,7 +23,7 @@ class DeleteRedmineService {
     }
 
     const redmineUser = redmine.redmine_users.find(
-      redmine_user => redmine_user.user.id === user_id,
+      redmine_user => redmine_user.user_id === user_id,
     );
 
     if (!redmineUser || redmineUser.role === EnumRoleRedmine.Contributor) {

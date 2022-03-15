@@ -1,10 +1,9 @@
-import { IUser } from '@modules/user/domain/models/IUser';
 import { IRedmine } from './IRedmine';
 
 export interface IRedmineUser {
   id: string;
   role: number;
-  user: IUser;
+  user_id: string;
   redmine: IRedmine;
   createdAt: Date;
   updatedAt: Date;

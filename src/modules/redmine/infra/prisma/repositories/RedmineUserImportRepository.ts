@@ -1,20 +1,13 @@
 import { ICreateUserImportRedmine } from '@modules/redmine/domain/models/ICreateUserImportRedmine';
 import { IRedmineUserImport } from '@modules/redmine/domain/models/IRedmineUserImport';
 import { IRedmineUserImportRepository } from '@modules/redmine/domain/repositories/IRedmineUserImportRepository';
-import { getRepository, Repository } from 'typeorm';
-import RedmineUserImport from '../entities/RedmineUserImport';
+import { prismaClient } from '@shared/infra/prisma/prismaClient';
 
 export class RedmineUserImportRepository
   implements IRedmineUserImportRepository
 {
-  private ormRepository: Repository<RedmineUserImport>;
-
-  constructor() {
-    this.ormRepository = getRepository(RedmineUserImport);
-  }
-
   public async findByRedmine(id: string): Promise<IRedmineUserImport[]> {
-    const users = this.ormRepository.find({
+    const users = await prismaClient.redmine_user_import.findMany({
       where: { redmine_id: id },
     });
 
@@ -24,18 +17,19 @@ export class RedmineUserImportRepository
   public async create(
     user: ICreateUserImportRedmine,
   ): Promise<IRedmineUserImport> {
-    const userImport = this.ormRepository.create({
-      ...user,
+    const userImport = await prismaClient.redmine_user_import.create({
+      data: user,
     });
-
-    await this.ormRepository.save(userImport);
 
     return userImport;
   }
 
   public async save(user: IRedmineUserImport): Promise<IRedmineUserImport> {
-    await this.ormRepository.save(user);
+    const userImportUpdated = await prismaClient.redmine_user_import.update({
+      where: { id: user.id },
+      data: user,
+    });
 
-    return user;
+    return userImportUpdated;
   }
 }

@@ -1,37 +1,23 @@
 import { ICreateUser } from '@modules/user/domain/models/ICreateUser';
 import { IUser } from '@modules/user/domain/models/IUser';
 import { IUserRepository } from '@modules/user/domain/repositories/IUserRepository';
-import { EntityRepository, getRepository, Repository } from 'typeorm';
-import User from '../entities/User';
+import { prismaClient } from '@shared/infra/prisma/prismaClient';
 
-@EntityRepository(User)
 export class UserRepository implements IUserRepository {
-  private ormRepository: Repository<User>;
-
-  constructor() {
-    this.ormRepository = getRepository(User);
-  }
-
-  public async findByName(name: string): Promise<IUser | undefined> {
-    const user = await this.ormRepository.findOne({
-      where: { name },
-    });
+  public async findByName(name: string): Promise<IUser | null> {
+    const user = await prismaClient.user.findFirst({ where: { name } });
 
     return user;
   }
 
-  public async findById(id: string): Promise<IUser | undefined> {
-    const user = await this.ormRepository.findOne({
-      where: { id },
-    });
+  public async findById(id: string): Promise<IUser | null> {
+    const user = await prismaClient.user.findUnique({ where: { id } });
 
     return user;
   }
 
-  public async findByEmail(email: string): Promise<User | undefined> {
-    const user = await this.ormRepository.findOne({
-      where: { email },
-    });
+  public async findByEmail(email: string): Promise<IUser | null> {
+    const user = await prismaClient.user.findFirst({ where: { email } });
 
     return user;
   }

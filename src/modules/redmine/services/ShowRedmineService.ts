@@ -1,7 +1,7 @@
 import AppError from '@shared/errors/AppError';
 import { classToClass } from 'class-transformer';
-import { IRedmine } from '../domain/models/IRedmine';
 import { inject, injectable } from 'tsyringe';
+import { IRedmine } from '../domain/models/IRedmine';
 import { IRedmineRepository } from '../domain/repositories/IRedmineRepository';
 
 interface IRequest {
@@ -23,7 +23,7 @@ class ShowRedmineService {
     }
 
     const redmineUser = redmine.redmine_users.find(
-      redmine_user => redmine_user.user.id === user_id,
+      redmine_user => redmine_user.user_id === user_id,
     );
 
     if (!redmineUser) {
