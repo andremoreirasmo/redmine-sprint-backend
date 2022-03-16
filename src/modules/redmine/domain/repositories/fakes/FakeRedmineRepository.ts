@@ -1,11 +1,10 @@
-import { v4 as uuidv4 } from 'uuid';
 import { ICreateRedmine } from '@modules/redmine/domain/models/ICreateRedmine';
 import { IRedmine } from '@modules/redmine/domain/models/IRedmine';
 import { IRedmineRepository } from '@modules/redmine/domain/repositories/IRedmineRepository';
-import Redmine from '@modules/redmine/infra/typeorm/entities/Redmine';
+import { v4 as uuidv4 } from 'uuid';
 
 export class FakeRedmineRepository implements IRedmineRepository {
-  private redmines: Redmine[] = [];
+  private redmines: IRedmine[] = [];
 
   public async create({
     name,
@@ -13,15 +12,15 @@ export class FakeRedmineRepository implements IRedmineRepository {
     apiKey,
     project_import,
     redmine_users,
-  }: ICreateRedmine): Promise<IRedmine> {
-    const redmine = new Redmine();
-
-    redmine.id = uuidv4();
-    redmine.name = name;
-    redmine.url = url;
-    redmine.apiKey = apiKey;
-    redmine.project_import = project_import;
-    redmine.redmine_users = redmine_users;
+  }: ICreateRedmine): Promise<Partial<IRedmine>> {
+    const redmine = {
+      id: uuidv4(),
+      name,
+      url,
+      apiKey,
+      project_import,
+      redmine_users,
+    } as IRedmine;
 
     this.redmines.push(redmine);
 
@@ -38,9 +37,9 @@ export class FakeRedmineRepository implements IRedmineRepository {
     return redmine;
   }
 
-  public async findById(id: string): Promise<Redmine | undefined> {
+  public async findById(id: string): Promise<Partial<IRedmine> | null> {
     const redmine = this.redmines.find(redmine => redmine.id === id);
-    return redmine;
+    return redmine ?? null;
   }
 
   public async findByUserId(user_id: string): Promise<IRedmine[]> {

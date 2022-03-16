@@ -8,24 +8,35 @@ export class TeamRepository implements ITeamRepository {
     name,
     redmine_id,
     hours_per_point,
-    activities,
-    categories,
-  }: ICreateTeam): Promise<ITeam> {
+  }: ICreateTeam): Promise<Partial<ITeam>> {
     const teamCreate = await prismaClient.team.create({
       data: {
         name,
         redmine_id,
         hours_per_point,
-        activities: { createMany: { data: activities } },
       },
     });
 
     return teamCreate;
   }
 
-  public async save(team: ITeam): Promise<ITeam> {
-    await this.ormRepository.save(team);
+  public async save({
+    id,
+    name,
+    hours_per_point,
+    redmine_id,
+  }: ITeam): Promise<Partial<ITeam>> {
+    const teamSaved = await prismaClient.team.update({
+      where: {
+        id,
+      },
+      data: {
+        name,
+        hours_per_point,
+        redmine_id,
+      },
+    });
 
-    return team;
+    return teamSaved;
   }
 }

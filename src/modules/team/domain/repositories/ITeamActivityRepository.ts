@@ -1,8 +1,9 @@
+import { ICreateTeamActivity } from '../models/ICreateTeam';
 import { ITeamActivity } from '../models/ITeamActivity';
 
 export interface ITeamActivityRepository {
   create(
-    team: Omit<ITeamActivity, 'id' | 'createdAt' | 'updatedAt'>[],
-  ): Promise<ITeamActivity>;
-  save(teamActivity: ITeamActivity): Promise<ITeamActivity>;
+    team_id: string,
+    activities: ICreateTeamActivity[],
+  ): Promise<ITeamActivity[]>;
 }

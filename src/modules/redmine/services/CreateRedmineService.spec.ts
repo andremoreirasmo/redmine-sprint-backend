@@ -1,6 +1,6 @@
+import { FakeRedmineRepository } from '@modules/redmine/domain/repositories/fakes/FakeRedmineRepository';
 import 'reflect-metadata';
 import CreateRedmineService from './CreateRedmineService';
-import { FakeRedmineRepository } from '@modules/redmine/domain/repositories/fakes/FakeRedmineRepository';
 
 let fakeRedmineRepository: FakeRedmineRepository;
 let createRedmine: CreateRedmineService;

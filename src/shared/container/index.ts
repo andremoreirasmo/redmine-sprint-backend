@@ -3,8 +3,12 @@ import { IRedmineUserImportRepository } from '@modules/redmine/domain/repositori
 import { RedmineRepository } from '@modules/redmine/infra/prisma/repositories/RedmineRepository';
 import { RedmineUserImportRepository } from '@modules/redmine/infra/prisma/repositories/RedmineUserImportRepository';
 import '@modules/redmine/providers';
+import { ITeamActivityRepository } from '@modules/team/domain/repositories/ITeamActivityRepository';
 import { ITeamRepository } from '@modules/team/domain/repositories/ITeamRepository';
+import { ITeamTaskCategoryRepository } from '@modules/team/domain/repositories/ITeamTaskCategoryRepository';
+import { TeamActivityRepository } from '@modules/team/infra/prisma/repositories/TeamActivityRepository';
 import { TeamRepository } from '@modules/team/infra/prisma/repositories/TeamRepository';
+import { TeamTaskCategoryRepository } from '@modules/team/infra/prisma/repositories/TeamTaskCategoryRepository';
 import { UserRepository } from '@modules/user/infra/prisma/repositories/UserRepository';
 import { UserTokenRepository } from '@modules/user/infra/prisma/repositories/UserTokenRepository';
 import '@modules/user/providers';
@@ -28,3 +32,11 @@ container.registerSingleton<IUserTokenRepository>(
 );
 
 container.registerSingleton<ITeamRepository>('TeamRepository', TeamRepository);
+container.registerSingleton<ITeamActivityRepository>(
+  'TeamActivityRepository',
+  TeamActivityRepository,
+);
+container.registerSingleton<ITeamTaskCategoryRepository>(
+  'TeamTaskCategoryRepository',
+  TeamTaskCategoryRepository,
+);
