@@ -42,12 +42,50 @@ model redmine_user_import {
 }
 
 model team {
-  id              String   @id() @default(uuid())
+  id              String               @id() @default(uuid())
+  name            String
   hours_per_point Int
   redmine_id      String
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @default(now())
-  redmine         redmine  @relation(fields: [redmine_id], references: [id], onDelete: Cascade)
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @default(now())
+  redmine         redmine              @relation(fields: [redmine_id], references: [id], onDelete: Cascade)
+  activities      team_activity[]
+  categories      team_task_category[]
+}
+
+model team_activity {
+  id                 String                  @id() @default(uuid())
+  name               String
+  team_id            String
+  createdAt          DateTime                @default(now())
+  updatedAt          DateTime                @default(now())
+  team               team                    @relation(fields: [team_id], references: [id], onDelete: Cascade)
+  activities_redmine team_activity_redmine[]
+}
+
+model team_activity_redmine {
+  id                 String        @id() @default(uuid())
+  redmine_activit_id Int
+  team_activity_id   String
+  team_activity      team_activity @relation(fields: [team_activity_id], references: [id], onDelete: Cascade)
+}
+
+model team_task_category {
+  id                 String                       @id() @default(uuid())
+  name               String
+  team_id            String
+  productive         Boolean
+  createdAt          DateTime                     @default(now())
+  updatedAt          DateTime                     @default(now())
+  team               team                         @relation(fields: [team_id], references: [id], onDelete: Cascade)
+  categories_redmine team_task_category_redmine[]
+}
+
+model team_task_category_redmine {
+  id                    String             @id() @default(uuid())
+  redmine_category_id   Int
+  team_task_category_id String
+  team_task_category    team_task_category @relation(fields: [team_task_category_id], references: [id], onDelete: Cascade)
 }
 
 model user {

@@ -1,27 +1,20 @@
+import { IUserToken } from '@modules/user/domain/models/IUserToken';
 import { IUserTokenRepository } from '@modules/user/domain/repositories/IUserTokenRepository';
-import { EntityRepository, getRepository, Repository } from 'typeorm';
-import UserToken from '../entities/UserToken';
+import { prismaClient } from '@shared/infra/prisma/prismaClient';
 
-@EntityRepository(UserToken)
 export class UserTokenRepository implements IUserTokenRepository {
-  private ormRepository: Repository<UserToken>;
-
-  constructor() {
-    this.ormRepository = getRepository(UserToken);
-  }
-
-  public async findByToken(token: string): Promise<UserToken | undefined> {
-    const userToken = await this.ormRepository.findOne({
+  public async findByToken(token: string): Promise<IUserToken | null> {
+    const userToken = await prismaClient.user_token.findFirst({
       where: { token },
     });
 
     return userToken;
   }
 
-  public async generate(user_id: string): Promise<UserToken> {
-    const userToken = this.ormRepository.create({ user_id });
-
-    await this.ormRepository.save(userToken);
+  public async generate(user_id: string): Promise<IUserToken> {
+    const userToken = await prismaClient.user_token.create({
+      data: { user_id },
+    });
 
     return userToken;
   }

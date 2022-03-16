@@ -10,7 +10,7 @@ export class RedmineRepository implements IRedmineRepository {
     apiKey,
     project_import,
     redmine_users,
-  }: ICreateRedmine): Promise<IRedmine> {
+  }: ICreateRedmine): Promise<Partial<IRedmine>> {
     const redmine = prismaClient.redmine.create({
       data: {
         name,
@@ -28,7 +28,7 @@ export class RedmineRepository implements IRedmineRepository {
     return redmine;
   }
 
-  public async save(redmine: IRedmine): Promise<IRedmine> {
+  public async save(redmine: IRedmine): Promise<Partial<IRedmine>> {
     const redmineUpdate = prismaClient.redmine.update({
       where: {
         id: redmine.id,
@@ -41,21 +41,13 @@ export class RedmineRepository implements IRedmineRepository {
     return redmineUpdate;
   }
 
-  public async findById(id: string): Promise<IRedmine | null> {
+  public async findById(id: string): Promise<Partial<IRedmine> | null> {
     const redmine = await prismaClient.redmine.findUnique({
       where: { id },
       include: {
         redmine_users: {
-          select: {
-            user: {
-              select: {
-                id: true,
-                email: true,
-                name: true,
-              },
-            },
-            id: true,
-            role: true,
+          include: {
+            user: true,
           },
         },
       },
@@ -64,7 +56,7 @@ export class RedmineRepository implements IRedmineRepository {
     return redmine;
   }
 
-  public async findByUserId(user_id: string): Promise<IRedmine[]> {
+  public async findByUserId(user_id: string): Promise<Partial<IRedmine>[]> {
     const redmines = await prismaClient.redmine.findMany({
       where: {
         redmine_users: {
@@ -75,16 +67,8 @@ export class RedmineRepository implements IRedmineRepository {
       },
       include: {
         redmine_users: {
-          select: {
-            user: {
-              select: {
-                id: true,
-                email: true,
-                name: true,
-              },
-            },
-            id: true,
-            role: true,
+          include: {
+            user: true,
           },
         },
       },

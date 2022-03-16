@@ -23,25 +23,21 @@ export class UserRepository implements IUserRepository {
   }
 
   public async find(): Promise<IUser[]> {
-    const users = await this.ormRepository.find();
+    const users = await prismaClient.user.findMany();
 
     return users;
   }
 
   public async create({ name, email, password }: ICreateUser): Promise<IUser> {
-    const user = this.ormRepository.create({
-      name,
-      email,
-      password,
+    const userCreated = prismaClient.user.create({
+      data: { name, email, password },
     });
 
-    await this.ormRepository.save(user);
-
-    return user;
+    return userCreated;
   }
 
   public async save(user: IUser): Promise<IUser> {
-    await this.ormRepository.save(user);
+    await prismaClient.user.update({ where: { id: user.id }, data: user });
 
     return user;
   }

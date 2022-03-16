@@ -39,7 +39,7 @@ class CreateRedmineService {
       redmine_users: [redmineUser],
     });
 
-    return redmine;
+    return redmine as IRedmine;
   }
 }
 

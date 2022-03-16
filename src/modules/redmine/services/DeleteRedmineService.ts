@@ -1,3 +1,4 @@
+import { IRedmine } from '@modules/redmine/domain/models/IRedmine';
 import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
 import EnumRoleRedmine from '../domain/enums/EnumRoleRedmine';
@@ -16,7 +17,7 @@ class DeleteRedmineService {
   ) {}
 
   public async execute({ user_id, id }: IRequest): Promise<void> {
-    const redmine = await this.redmineRepository.findById(id);
+    const redmine = (await this.redmineRepository.findById(id)) as IRedmine;
 
     if (!redmine) {
       throw new AppError('Redmine not found.');
