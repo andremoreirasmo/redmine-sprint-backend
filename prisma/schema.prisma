@@ -1,0 +1,111 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model redmine {
+  id                   String                @id() @default(uuid())
+  name                 String
+  url                  String
+  apiKey               String
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @default(now())
+  project_import       Int
+  redmine_users        redmine_user[]
+  redmine_users_import redmine_user_import[]
+  teams                team[]
+}
+
+model redmine_user {
+  id         String   @id() @default(uuid())
+  role       Int
+  user_id    String
+  redmine_id String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
+  redmine    redmine  @relation(fields: [redmine_id], references: [id], onDelete: Cascade)
+  user       user     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+model redmine_user_import {
+  id              String   @id() @default(uuid())
+  redmine_id      String
+  id_user_redmine Int
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @default(now())
+  name            String
+  redmine         redmine  @relation(fields: [redmine_id], references: [id], onDelete: Cascade)
+}
+
+model team {
+  id              String               @id() @default(uuid())
+  name            String
+  hours_per_point Int
+  redmine_id      String
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @default(now())
+  redmine         redmine              @relation(fields: [redmine_id], references: [id], onDelete: Cascade)
+  activities      team_activity[]
+  categories      team_task_category[]
+}
+
+model team_activity {
+  id                 String                  @id() @default(uuid())
+  name               String
+  team_id            String
+  createdAt          DateTime                @default(now())
+  updatedAt          DateTime                @default(now())
+  team               team                    @relation(fields: [team_id], references: [id], onDelete: Cascade)
+  activities_redmine team_activity_redmine[]
+}
+
+model team_activity_redmine {
+  id                 String        @id() @default(uuid())
+  redmine_activit_id Int
+  team_activity_id   String
+  team_activity      team_activity @relation(fields: [team_activity_id], references: [id], onDelete: Cascade)
+}
+
+model team_task_category {
+  id                 String                       @id() @default(uuid())
+  name               String
+  team_id            String
+  productive         Boolean
+  createdAt          DateTime                     @default(now())
+  updatedAt          DateTime                     @default(now())
+  team               team                         @relation(fields: [team_id], references: [id], onDelete: Cascade)
+  categories_redmine team_task_category_redmine[]
+}
+
+model team_task_category_redmine {
+  id                    String             @id() @default(uuid())
+  redmine_category_id   Int
+  team_task_category_id String
+  team_task_category    team_task_category @relation(fields: [team_task_category_id], references: [id], onDelete: Cascade)
+}
+
+model user {
+  id            String         @id() @default(uuid())
+  name          String
+  email         String         @unique()
+  password      String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @default(now())
+  redmine_users redmine_user[]
+  users_token   user_token[]
+}
+
+model user_token {
+  id        String   @default(uuid())
+  token     String   @default(uuid())
+  user_id   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  user      user     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@id([id, token])
+}

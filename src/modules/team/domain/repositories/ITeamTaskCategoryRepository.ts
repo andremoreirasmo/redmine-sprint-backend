@@ -1,9 +1,9 @@
-import { ICreateTeamTaskCategoryRequest } from '../models/CreateTeam/ICreateTeamTaskCategoryRequest';
+import { ICreateTeamTaskCategory } from '../models/ICreateTeam';
 import { ITeamTaskCategory } from '../models/ITeamTaskCategory';
 
 export interface ITeamTaskCategoryRepository {
   create(
-    categories: ICreateTeamTaskCategoryRequest[],
+    team_id: string,
+    categories: ICreateTeamTaskCategory[],
   ): Promise<ITeamTaskCategory[]>;
-  save(teamActivity: ITeamTaskCategory[]): Promise<ITeamTaskCategory[]>;
 }

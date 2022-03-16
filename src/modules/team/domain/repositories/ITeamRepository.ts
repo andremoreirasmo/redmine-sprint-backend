@@ -1,7 +1,7 @@
-import { ICreateTeam } from '../models/CreateTeam/ICreateTeam';
+import { ICreateTeam } from '../models/ICreateTeam';
 import { ITeam } from '../models/ITeam';
 
 export interface ITeamRepository {
-  create(team: ICreateTeam): Promise<ITeam>;
-  save(team: ITeam): Promise<ITeam>;
+  create(data: ICreateTeam): Promise<Partial<ITeam>>;
+  save(team: ITeam): Promise<Partial<ITeam>>;
 }

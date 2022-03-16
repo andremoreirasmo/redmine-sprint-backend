@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe';
+import { IRedmine } from '../domain/models/IRedmine';
 import { IRedmineUserImportRepository } from '../domain/repositories/IRedmineUserImportRepository';
-import Redmine from '../infra/typeorm/entities/Redmine';
 import { IApiRedmineGetUsersProvider } from '../providers/ApiRedmineProvider/models/IApiRedmineGetUsersProvider';
 
 @injectable()
@@ -12,7 +12,7 @@ class ImportUsersRedmineService {
     private redmineUserImportRep: IRedmineUserImportRepository,
   ) {}
 
-  public async execute(redmine: Redmine): Promise<void> {
+  public async execute(redmine: IRedmine): Promise<void> {
     const users = await this.apiRedmineGetUsersProvider.get(
       redmine.url,
       redmine.apiKey,

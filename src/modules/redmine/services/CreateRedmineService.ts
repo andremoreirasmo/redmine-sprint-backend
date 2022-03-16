@@ -1,8 +1,8 @@
+import { inject, injectable } from 'tsyringe';
 import EnumRoleRedmine from '../domain/enums/EnumRoleRedmine';
-import { IRedmineRepository } from '../domain/repositories/IRedmineRepository';
 import { IRedmine } from '../domain/models/IRedmine';
 import { IRedmineUser } from '../domain/models/IRedmineUser';
-import { inject, injectable } from 'tsyringe';
+import { IRedmineRepository } from '../domain/repositories/IRedmineRepository';
 
 interface IRequest {
   user_id: string;
@@ -27,9 +27,7 @@ class CreateRedmineService {
     project_import,
   }: IRequest): Promise<IRedmine> {
     const redmineUser = {
-      user: {
-        id: user_id,
-      },
+      user_id: user_id,
       role: EnumRoleRedmine.Owner,
     } as IRedmineUser;
 
@@ -41,9 +39,7 @@ class CreateRedmineService {
       redmine_users: [redmineUser],
     });
 
-    redmine.redmine_users = [redmineUser];
-
-    return redmine;
+    return redmine as IRedmine;
   }
 }
 
