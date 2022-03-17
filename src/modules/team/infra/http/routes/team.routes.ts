@@ -1,7 +1,7 @@
+import isAuthenticated from '@shared/infra/http/middlewares/isAuthenticated';
+import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import TeamController from '../controllers/TeamController';
-import { celebrate, Joi, Segments } from 'celebrate';
-import isAuthenticated from '@shared/infra/http/middlewares/isAuthenticated';
 
 const teamRouter = Router();
 const teamController = new TeamController();
@@ -40,7 +40,7 @@ teamRouter.post(
           name: Joi.string().required(),
           productive: Joi.boolean().required(),
           redmine_categories: Joi.array()
-            .items({ redmineCategoryId: Joi.number().required() })
+            .items({ redmine_category_id: Joi.number().required() })
             .required(),
         })
         .required(),

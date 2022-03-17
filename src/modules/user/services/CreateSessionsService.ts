@@ -1,9 +1,9 @@
+import AuthCofig from '@config/auth';
 import AppError from '@shared/errors/AppError';
 import { sign } from 'jsonwebtoken';
-import AuthCofig from '@config/auth';
+import { inject, injectable } from 'tsyringe';
 import { IUser } from '../domain/models/IUser';
 import { IUserRepository } from '../domain/repositories/IUserRepository';
-import { inject, injectable } from 'tsyringe';
 import { IHashProvider } from '../providers/HashProvider/models/IHashProvider';
 interface IRequest {
   email: string;
@@ -41,7 +41,7 @@ class CreateSessionsService {
 
     const passwordConfirmed = await this.hashProvider.compareHash(
       password,
-      user.password,
+      user.password as string,
     );
 
     if (!passwordConfirmed) {

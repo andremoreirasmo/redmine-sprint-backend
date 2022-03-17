@@ -64,10 +64,10 @@ model team_activity {
 }
 
 model team_activity_redmine {
-  id                 String        @id() @default(uuid())
-  redmine_activit_id Int
-  team_activity_id   String
-  team_activity      team_activity @relation(fields: [team_activity_id], references: [id], onDelete: Cascade)
+  id                  String        @id() @default(uuid())
+  redmine_activity_id Int
+  team_activity_id    String
+  team_activity       team_activity @relation(fields: [team_activity_id], references: [id], onDelete: Cascade)
 }
 
 model team_task_category {

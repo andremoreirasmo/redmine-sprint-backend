@@ -1,5 +1,5 @@
 export interface ICreateTeamActivityRedmine {
-  redmine_activit_id: number;
+  redmine_activity_id: number;
 }
 
 export interface ICreateTeamActivity {
