@@ -1,7 +1,7 @@
 import AppError from '@shared/errors/AppError';
 import { classToClass } from 'class-transformer';
 import { inject, injectable } from 'tsyringe';
-import { GetEnumRoleRedmine } from '../domain/enums/EnumRoleRedmine';
+import { GetLabelEnumRoleRedmine } from '../domain/enums/EnumRoleRedmine';
 import { IRedmine } from '../domain/models/IRedmine';
 import { IRedmineRepository } from '../domain/repositories/IRedmineRepository';
 
@@ -28,7 +28,7 @@ class UpdateRedmineService {
     apiKey,
     project_import,
   }: IRequest): Promise<IRedmine> {
-    const redmine = (await this.redmineRepository.findById(id)) as IRedmine;
+    const redmine = await this.redmineRepository.findById(id);
 
     if (!redmine) {
       throw new AppError('Redmine not found.');
@@ -50,7 +50,7 @@ class UpdateRedmineService {
     await this.redmineRepository.save(redmine);
 
     return classToClass(redmine, {
-      groups: [GetEnumRoleRedmine(redmineUser.role)],
+      groups: [GetLabelEnumRoleRedmine(redmineUser.role)],
     });
   }
 }

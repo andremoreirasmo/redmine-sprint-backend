@@ -1,3 +1,6 @@
+import EnumRoleRedmine, {
+  GetLabelsEnumRoleRedmine,
+} from '@modules/redmine/domain/enums/EnumRoleRedmine';
 import { IRedmine } from '@modules/redmine/domain/models/IRedmine';
 import { IRedmineUser } from '@modules/redmine/domain/models/IRedmineUser';
 import { IRedmineUserImport } from '@modules/redmine/domain/models/IRedmineUserImport';
@@ -11,7 +14,12 @@ class Redmine implements IRedmine {
 
   url: string;
 
-  @Expose({ groups: ['owner', 'admin'] })
+  @Expose({
+    groups: GetLabelsEnumRoleRedmine(
+      EnumRoleRedmine.Admin,
+      EnumRoleRedmine.Owner,
+    ),
+  })
   apiKey: string;
 
   project_import: number;
@@ -20,29 +28,17 @@ class Redmine implements IRedmine {
 
   updatedAt: Date;
 
-  @Expose({ groups: ['owner', 'admin'] })
+  @Expose({
+    groups: GetLabelsEnumRoleRedmine(
+      EnumRoleRedmine.Admin,
+      EnumRoleRedmine.Owner,
+    ),
+  })
   redmine_users: IRedmineUser[];
 
   redmine_users_import: IRedmineUserImport[];
 
   teams: ITeam[];
-
-  constructor(partial: Partial<Redmine>) {
-    Object.assign(this, partial);
-  }
 }
 
-const createEntityUser = (partial: Partial<Redmine> | null): Redmine | null => {
-  if (!partial) {
-    return null;
-  }
-
-  return new Redmine(partial);
-};
-
-const createEntitiesRedmines = (users: Partial<Redmine>[]): Redmine[] => {
-  return users.map(user => new User(user));
-};
-
-export { createEntityRedmine, createEntitiesRedmines };
-export type { Redmine };
+export default Redmine;

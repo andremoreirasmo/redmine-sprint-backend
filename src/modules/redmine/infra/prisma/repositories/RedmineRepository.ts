@@ -2,6 +2,8 @@ import { ICreateRedmine } from '@modules/redmine/domain/models/ICreateRedmine';
 import { IRedmine } from '@modules/redmine/domain/models/IRedmine';
 import { IRedmineRepository } from '@modules/redmine/domain/repositories/IRedmineRepository';
 import { prismaClient } from '@shared/infra/prisma/prismaClient';
+import { plainToClass } from 'class-transformer';
+import Redmine from '../entities/Redmine';
 
 export class RedmineRepository implements IRedmineRepository {
   public async create({
@@ -10,7 +12,7 @@ export class RedmineRepository implements IRedmineRepository {
     apiKey,
     project_import,
     redmine_users,
-  }: ICreateRedmine): Promise<Partial<IRedmine>> {
+  }: ICreateRedmine): Promise<IRedmine> {
     const redmine = prismaClient.redmine.create({
       data: {
         name,
@@ -25,10 +27,10 @@ export class RedmineRepository implements IRedmineRepository {
       },
     });
 
-    return redmine;
+    return plainToClass(Redmine, redmine);
   }
 
-  public async save(redmine: IRedmine): Promise<Partial<IRedmine>> {
+  public async save(redmine: IRedmine): Promise<IRedmine> {
     const redmineUpdate = prismaClient.redmine.update({
       where: {
         id: redmine.id,
@@ -38,10 +40,10 @@ export class RedmineRepository implements IRedmineRepository {
       },
     });
 
-    return redmineUpdate;
+    return plainToClass(Redmine, redmineUpdate);
   }
 
-  public async findById(id: string): Promise<Partial<IRedmine> | null> {
+  public async findById(id: string): Promise<IRedmine | null> {
     const redmine = await prismaClient.redmine.findUnique({
       where: { id },
       include: {
@@ -53,10 +55,10 @@ export class RedmineRepository implements IRedmineRepository {
       },
     });
 
-    return redmine;
+    return redmine ? plainToClass(Redmine, redmine) : null;
   }
 
-  public async findByUserId(user_id: string): Promise<Partial<IRedmine>[]> {
+  public async findByUserId(user_id: string): Promise<IRedmine[]> {
     const redmines = await prismaClient.redmine.findMany({
       where: {
         redmine_users: {
@@ -74,7 +76,7 @@ export class RedmineRepository implements IRedmineRepository {
       },
     });
 
-    return redmines;
+    return plainToClass(Redmine, redmines, { ignoreDecorators: true });
   }
 
   public async remove(redmine: IRedmine): Promise<void> {

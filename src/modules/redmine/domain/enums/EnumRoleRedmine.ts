@@ -10,8 +10,14 @@ const EnumRoleRedmineLabel = new Map<number, string>([
   [EnumRoleRedmine.Contributor, 'contributor'],
 ]);
 
-export function GetEnumRoleRedmine(value: number): string {
+export function GetLabelEnumRoleRedmine(value: number): string {
   return EnumRoleRedmineLabel.get(value) ?? '';
+}
+
+export function GetLabelsEnumRoleRedmine(...values: number[]): string[] {
+  const labels = values.map(value => GetLabelEnumRoleRedmine(value));
+
+  return labels;
 }
 
 export default EnumRoleRedmine;
