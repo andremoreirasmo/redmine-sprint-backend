@@ -1,6 +1,8 @@
+import RedmineUserImport from '@modules/redmine/domain/entities/RedmineUserImport';
 import { ICreateUserImportRedmine } from '@modules/redmine/domain/models/ICreateUserImportRedmine';
 import { IRedmineUserImport } from '@modules/redmine/domain/models/IRedmineUserImport';
 import { IRedmineUserImportRepository } from '@modules/redmine/domain/repositories/IRedmineUserImportRepository';
+import { recordToEntity } from '@shared/entitites/RecordToEntity';
 import { prismaClient } from '@shared/infra/prisma/prismaClient';
 
 export class RedmineUserImportRepository
@@ -11,7 +13,7 @@ export class RedmineUserImportRepository
       where: { redmine_id: id },
     });
 
-    return users;
+    return recordToEntity(RedmineUserImport, users);
   }
 
   public async create(
@@ -21,7 +23,7 @@ export class RedmineUserImportRepository
       data: user,
     });
 
-    return userImport;
+    return recordToEntity(RedmineUserImport, userImport);
   }
 
   public async save(user: IRedmineUserImport): Promise<IRedmineUserImport> {
@@ -30,6 +32,6 @@ export class RedmineUserImportRepository
       data: user,
     });
 
-    return userImportUpdated;
+    return recordToEntity(RedmineUserImport, userImportUpdated);
   }
 }

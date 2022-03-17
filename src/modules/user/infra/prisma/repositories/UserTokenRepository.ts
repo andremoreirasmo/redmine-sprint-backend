@@ -1,5 +1,7 @@
+import UserToken from '@modules/user/domain/entities/UserToken';
 import { IUserToken } from '@modules/user/domain/models/IUserToken';
 import { IUserTokenRepository } from '@modules/user/domain/repositories/IUserTokenRepository';
+import { recordToEntity } from '@shared/entitites/RecordToEntity';
 import { prismaClient } from '@shared/infra/prisma/prismaClient';
 
 export class UserTokenRepository implements IUserTokenRepository {
@@ -8,7 +10,7 @@ export class UserTokenRepository implements IUserTokenRepository {
       where: { token },
     });
 
-    return userToken;
+    return recordToEntity(UserToken, userToken);
   }
 
   public async generate(user_id: string): Promise<IUserToken> {
@@ -16,6 +18,6 @@ export class UserTokenRepository implements IUserTokenRepository {
       data: { user_id },
     });
 
-    return userToken;
+    return recordToEntity(UserToken, userToken);
   }
 }

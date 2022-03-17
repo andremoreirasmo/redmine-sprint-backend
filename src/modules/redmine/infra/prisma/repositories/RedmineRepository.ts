@@ -1,9 +1,9 @@
+import Redmine from '@modules/redmine/domain/entities/Redmine';
 import { ICreateRedmine } from '@modules/redmine/domain/models/ICreateRedmine';
 import { IRedmine } from '@modules/redmine/domain/models/IRedmine';
 import { IRedmineRepository } from '@modules/redmine/domain/repositories/IRedmineRepository';
+import { recordToEntity } from '@shared/entitites/RecordToEntity';
 import { prismaClient } from '@shared/infra/prisma/prismaClient';
-import { plainToClass } from 'class-transformer';
-import Redmine from '../entities/Redmine';
 
 export class RedmineRepository implements IRedmineRepository {
   public async create({
@@ -13,6 +13,8 @@ export class RedmineRepository implements IRedmineRepository {
     project_import,
     redmine_users,
   }: ICreateRedmine): Promise<IRedmine> {
+    const redmine_user = redmine_users[0];
+
     const redmine = prismaClient.redmine.create({
       data: {
         name,
@@ -20,14 +22,15 @@ export class RedmineRepository implements IRedmineRepository {
         apiKey,
         project_import,
         redmine_users: {
-          createMany: {
-            data: redmine_users,
+          create: {
+            role: redmine_user.role,
+            user_id: redmine_user.user_id,
           },
         },
       },
     });
 
-    return plainToClass(Redmine, redmine);
+    return recordToEntity(Redmine, redmine);
   }
 
   public async save(redmine: IRedmine): Promise<IRedmine> {
@@ -40,7 +43,7 @@ export class RedmineRepository implements IRedmineRepository {
       },
     });
 
-    return plainToClass(Redmine, redmineUpdate);
+    return recordToEntity(Redmine, redmineUpdate);
   }
 
   public async findById(id: string): Promise<IRedmine | null> {
@@ -49,13 +52,19 @@ export class RedmineRepository implements IRedmineRepository {
       include: {
         redmine_users: {
           include: {
-            user: true,
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+              },
+            },
           },
         },
       },
     });
 
-    return redmine ? plainToClass(Redmine, redmine) : null;
+    return redmine ? recordToEntity(Redmine, redmine) : null;
   }
 
   public async findByUserId(user_id: string): Promise<IRedmine[]> {
@@ -70,13 +79,19 @@ export class RedmineRepository implements IRedmineRepository {
       include: {
         redmine_users: {
           include: {
-            user: true,
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true,
+              },
+            },
           },
         },
       },
     });
 
-    return plainToClass(Redmine, redmines, { ignoreDecorators: true });
+    return recordToEntity(Redmine, redmines);
   }
 
   public async remove(redmine: IRedmine): Promise<void> {

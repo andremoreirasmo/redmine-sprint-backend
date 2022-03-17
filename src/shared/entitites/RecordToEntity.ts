@@ -12,14 +12,19 @@ export function recordToEntity<T, V>(
   cls: ClassConstructor<T>,
   plain: V[],
   options?: ClassTransformOptions,
-): T[] {
-  return plainToClass(cls, plain, { ...defaultOptionsTransform, ...options });
-}
-
+): T[];
 export function recordToEntity<T, V>(
   cls: ClassConstructor<T>,
   plain: V,
   options?: ClassTransformOptions,
-): T {
-  return plainToClass(cls, plain, { ...defaultOptionsTransform, ...options });
+): T;
+export function recordToEntity<T, V>(
+  cls: ClassConstructor<T>,
+  plain: V | V[],
+  options?: ClassTransformOptions,
+): T | T[] {
+  return plainToClass(cls, plain as unknown, {
+    ...options,
+    ...defaultOptionsTransform,
+  });
 }

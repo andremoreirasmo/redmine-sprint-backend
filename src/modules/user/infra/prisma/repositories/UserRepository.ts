@@ -1,33 +1,33 @@
+import User from '@modules/user/domain/entities/User';
 import { ICreateUser } from '@modules/user/domain/models/ICreateUser';
 import { IUser } from '@modules/user/domain/models/IUser';
 import { IUserRepository } from '@modules/user/domain/repositories/IUserRepository';
+import { recordToEntity } from '@shared/entitites/RecordToEntity';
 import { prismaClient } from '@shared/infra/prisma/prismaClient';
-import { plainToClass } from 'class-transformer';
-import User from '../entities/User';
 
 export class UserRepository implements IUserRepository {
   public async findByName(name: string): Promise<IUser | null> {
     const user = await prismaClient.user.findFirst({ where: { name } });
 
-    return user ? plainToClass(User, user) : null;
+    return user ? recordToEntity(User, user) : null;
   }
 
   public async findById(id: string): Promise<IUser | null> {
     const user = await prismaClient.user.findUnique({ where: { id } });
 
-    return user ? plainToClass(User, user) : null;
+    return user ? recordToEntity(User, user) : null;
   }
 
   public async findByEmail(email: string): Promise<IUser | null> {
     const user = await prismaClient.user.findFirst({ where: { email } });
 
-    return user ? plainToClass(User, user) : null;
+    return user ? recordToEntity(User, user) : null;
   }
 
   public async find(): Promise<IUser[]> {
     const users = await prismaClient.user.findMany();
 
-    return plainToClass(User, users);
+    return recordToEntity(User, users);
   }
 
   public async create({ name, email, password }: ICreateUser): Promise<IUser> {
@@ -35,7 +35,7 @@ export class UserRepository implements IUserRepository {
       data: { name, email, password },
     });
 
-    return plainToClass(User, userCreated);
+    return recordToEntity(User, userCreated);
   }
 
   public async save(user: IUser): Promise<IUser> {
@@ -44,6 +44,6 @@ export class UserRepository implements IUserRepository {
       data: user,
     });
 
-    return plainToClass(User, userUpdated);
+    return recordToEntity(User, userUpdated);
   }
 }

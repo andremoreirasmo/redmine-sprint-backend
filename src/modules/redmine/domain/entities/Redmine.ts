@@ -2,10 +2,10 @@ import EnumRoleRedmine, {
   GetLabelsEnumRoleRedmine,
 } from '@modules/redmine/domain/enums/EnumRoleRedmine';
 import { IRedmine } from '@modules/redmine/domain/models/IRedmine';
-import { IRedmineUser } from '@modules/redmine/domain/models/IRedmineUser';
-import { IRedmineUserImport } from '@modules/redmine/domain/models/IRedmineUserImport';
 import { ITeam } from '@modules/team/domain/models/ITeam';
 import { Expose } from 'class-transformer';
+import RedmineUser from './RedmineUser';
+import RedmineUserImport from './RedmineUserImport';
 
 class Redmine implements IRedmine {
   id: string;
@@ -34,11 +34,11 @@ class Redmine implements IRedmine {
       EnumRoleRedmine.Owner,
     ),
   })
-  redmine_users: IRedmineUser[];
+  redmine_users: RedmineUser[];
 
-  redmine_users_import: IRedmineUserImport[];
+  redmine_users_import: RedmineUserImport[];
 
-  teams: ITeam[];
+  teams: ITeam[]; //Todo: Ajustar
 }
 
 export default Redmine;
