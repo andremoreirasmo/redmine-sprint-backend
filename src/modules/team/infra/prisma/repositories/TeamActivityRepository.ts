@@ -1,6 +1,8 @@
+import TeamActivity from '@modules/team/domain/entities/ITeamActivity';
 import { ICreateTeamActivity } from '@modules/team/domain/models/ICreateTeam';
 import { ITeamActivity } from '@modules/team/domain/models/ITeamActivity';
 import { ITeamActivityRepository } from '@modules/team/domain/repositories/ITeamActivityRepository';
+import { recordToEntity } from '@shared/entitites/RecordToEntity';
 import { prismaClient } from '@shared/infra/prisma/prismaClient';
 
 export class TeamActivityRepository implements ITeamActivityRepository {
@@ -8,7 +10,7 @@ export class TeamActivityRepository implements ITeamActivityRepository {
     team_id: string,
     activities: ICreateTeamActivity[],
   ): Promise<ITeamActivity[]> {
-    const activitiesCreated = prismaClient.$transaction(
+    const activitiesCreated = await prismaClient.$transaction(
       activities.map(activity => {
         const activities_redmine = activity.redmine_activities.map(id => {
           return { redmine_activity_id: id };
@@ -26,6 +28,6 @@ export class TeamActivityRepository implements ITeamActivityRepository {
       }),
     );
 
-    return activitiesCreated;
+    return recordToEntity(TeamActivity, activitiesCreated);
   }
 }

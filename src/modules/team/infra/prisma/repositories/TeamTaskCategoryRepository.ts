@@ -1,5 +1,7 @@
+import TeamTaskCategory from '@modules/team/domain/entities/ITeamTaskCategory';
 import { ITeamTaskCategory } from '@modules/team/domain/models/ITeamTaskCategory';
 import { ITeamTaskCategoryRepository } from '@modules/team/domain/repositories/ITeamTaskCategoryRepository';
+import { recordToEntity } from '@shared/entitites/RecordToEntity';
 import { prismaClient } from '@shared/infra/prisma/prismaClient';
 import { ICreateTeamTaskCategory } from './../../../domain/models/ICreateTeam';
 
@@ -8,7 +10,7 @@ export class TeamTaskCategoryRepository implements ITeamTaskCategoryRepository {
     team_id: string,
     categories: ICreateTeamTaskCategory[],
   ): Promise<ITeamTaskCategory[]> {
-    const categoriesCreated = prismaClient.$transaction(
+    const categoriesCreated = await prismaClient.$transaction(
       categories.map(category => {
         const categories_redmine = category.redmine_categories.map(id => {
           return { redmine_category_id: id };
@@ -27,6 +29,6 @@ export class TeamTaskCategoryRepository implements ITeamTaskCategoryRepository {
       }),
     );
 
-    return categoriesCreated;
+    return recordToEntity(TeamTaskCategory, categoriesCreated);
   }
 }

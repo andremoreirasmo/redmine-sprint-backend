@@ -1,6 +1,8 @@
+import Team from '@modules/team/domain/entities/ITeam';
 import { ICreateTeam } from '@modules/team/domain/models/ICreateTeam';
 import { ITeam } from '@modules/team/domain/models/ITeam';
 import { ITeamRepository } from '@modules/team/domain/repositories/ITeamRepository';
+import { recordToEntity } from '@shared/entitites/RecordToEntity';
 import { prismaClient } from '@shared/infra/prisma/prismaClient';
 
 export class TeamRepository implements ITeamRepository {
@@ -8,7 +10,7 @@ export class TeamRepository implements ITeamRepository {
     name,
     redmine_id,
     hours_per_point,
-  }: ICreateTeam): Promise<Partial<ITeam>> {
+  }: ICreateTeam): Promise<ITeam> {
     const teamCreate = await prismaClient.team.create({
       data: {
         name,
@@ -17,7 +19,7 @@ export class TeamRepository implements ITeamRepository {
       },
     });
 
-    return teamCreate;
+    return recordToEntity(Team, teamCreate);
   }
 
   public async save({
@@ -25,7 +27,7 @@ export class TeamRepository implements ITeamRepository {
     name,
     hours_per_point,
     redmine_id,
-  }: ITeam): Promise<Partial<ITeam>> {
+  }: ITeam): Promise<ITeam> {
     const teamSaved = await prismaClient.team.update({
       where: {
         id,
@@ -37,6 +39,6 @@ export class TeamRepository implements ITeamRepository {
       },
     });
 
-    return teamSaved;
+    return recordToEntity(Team, teamSaved);
   }
 }

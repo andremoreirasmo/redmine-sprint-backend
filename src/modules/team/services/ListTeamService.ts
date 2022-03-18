@@ -1,22 +1,25 @@
+import { IRedmineRepository } from '@modules/redmine/domain/repositories/IRedmineRepository';
+import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
-import { ICreateTeam } from '../domain/models/ICreateTeam';
 import { ITeam } from '../domain/models/ITeam';
-import { ITeamActivityRepository } from '../domain/repositories/ITeamActivityRepository';
 import { ITeamRepository } from '../domain/repositories/ITeamRepository';
-import { ITeamTaskCategoryRepository } from '../domain/repositories/ITeamTaskCategoryRepository';
 
 @injectable()
-class CreateTeamService {
+class ListTeamService {
   constructor(
     @inject('TeamRepository')
     private teamRepository: ITeamRepository,
-    @inject('TeamActivityRepository')
-    private teamActivityRepository: ITeamActivityRepository,
-    @inject('TeamTaskCategoryRepository')
-    private teamTaskCategoryRepository: ITeamTaskCategoryRepository,
+    @inject('RedmineRepository')
+    private redmineRepository: IRedmineRepository,
   ) {}
 
-  public async execute(data: ICreateTeam): Promise<ITeam> {
+  public async execute(redmine_id: string): Promise<ITeam> {
+    const redmine = await this.redmineRepository.findById(redmine_id);
+
+    if (!redmine || redmine.redmine_users.find(user => user.id === redmine)) {
+      throw new AppError('Redmine not found.');
+    }
+
     const team = await this.teamRepository.create(data);
 
     team.activities = await this.teamActivityRepository.create(
@@ -33,4 +36,4 @@ class CreateTeamService {
   }
 }
 
-export default CreateTeamService;
+export default ListTeamService;
