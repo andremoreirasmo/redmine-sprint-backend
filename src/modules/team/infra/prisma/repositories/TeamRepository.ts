@@ -41,4 +41,26 @@ export class TeamRepository implements ITeamRepository {
 
     return recordToEntity(Team, teamSaved);
   }
+
+  public async findByRedmineId(redmine_id: string): Promise<ITeam[]> {
+    const teams = await prismaClient.team.findMany({
+      where: {
+        redmine_id,
+      },
+      include: {
+        activities: {
+          include: {
+            activities_redmine: true,
+          },
+        },
+        categories: {
+          include: {
+            categories_redmine: true,
+          },
+        },
+      },
+    });
+
+    return recordToEntity(Team, teams);
+  }
 }

@@ -1,3 +1,4 @@
+import ListTeamService from '@modules/team/services/ListTeamService';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import CreateTeamService from '../../../services/CreateTeamService';
@@ -9,10 +10,11 @@ import CreateTeamService from '../../../services/CreateTeamService';
 
 export default class TeamController {
   public async index(request: Request, response: Response): Promise<Response> {
+    const user_id = request.user.id;
     const { redmine_id } = request.params;
     const listTeams = container.resolve(ListTeamService);
 
-    const teams = await listTeams.execute({ user_id });
+    const teams = await listTeams.execute({ user_id, redmine_id });
 
     return response.json(teams);
   }

@@ -4,6 +4,11 @@ import { inject, injectable } from 'tsyringe';
 import { ITeam } from '../domain/models/ITeam';
 import { ITeamRepository } from '../domain/repositories/ITeamRepository';
 
+interface Props {
+  user_id: string;
+  redmine_id: string;
+}
+
 @injectable()
 class ListTeamService {
   constructor(
@@ -13,26 +18,15 @@ class ListTeamService {
     private redmineRepository: IRedmineRepository,
   ) {}
 
-  public async execute(redmine_id: string): Promise<ITeam> {
+  public async execute({ user_id, redmine_id }: Props): Promise<ITeam[]> {
     const redmine = await this.redmineRepository.findById(redmine_id);
 
-    if (!redmine || redmine.redmine_users.find(user => user.id === redmine)) {
-      throw new AppError('Redmine not found.');
+    if (!redmine || redmine.redmine_users.find(user => user.id === user_id)) {
+      throw new AppError('Usúario sem permissão.');
     }
 
-    const team = await this.teamRepository.create(data);
-
-    team.activities = await this.teamActivityRepository.create(
-      team.id,
-      data.activities,
-    );
-
-    team.categories = await this.teamTaskCategoryRepository.create(
-      team.id,
-      data.categories,
-    );
-
-    return team;
+    const teams = await this.teamRepository.findByRedmineId(redmine_id);
+    return teams;
   }
 }
 

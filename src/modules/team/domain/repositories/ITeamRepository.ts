@@ -4,4 +4,5 @@ import { ITeam } from '../models/ITeam';
 export interface ITeamRepository {
   create(data: ICreateTeam): Promise<ITeam>;
   save(team: ITeam): Promise<ITeam>;
+  findByRedmineId(redmine_id: string): Promise<ITeam[]>;
 }

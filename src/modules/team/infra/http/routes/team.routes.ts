@@ -8,7 +8,7 @@ const teamController = new TeamController();
 
 teamRouter.use(isAuthenticated);
 
-// teamRouter.get('/', teamController.index);
+teamRouter.get('/:redmine_id', teamController.index);
 
 // teamRouter.get(
 //   '/:id',
