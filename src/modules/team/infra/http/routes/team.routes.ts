@@ -8,7 +8,15 @@ const teamController = new TeamController();
 
 teamRouter.use(isAuthenticated);
 
-teamRouter.get('/:redmine_id', teamController.index);
+teamRouter.get(
+  '/:redmine_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      redmine_id: Joi.string().uuid().required(),
+    },
+  }),
+  teamController.index,
+);
 
 // teamRouter.get(
 //   '/:id',

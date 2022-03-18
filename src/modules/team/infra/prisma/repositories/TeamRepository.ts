@@ -5,6 +5,19 @@ import { ITeamRepository } from '@modules/team/domain/repositories/ITeamReposito
 import { recordToEntity } from '@shared/entitites/RecordToEntity';
 import { prismaClient } from '@shared/infra/prisma/prismaClient';
 
+const defaultInclude = {
+  activities: {
+    include: {
+      activities_redmine: true,
+    },
+  },
+  categories: {
+    include: {
+      categories_redmine: true,
+    },
+  },
+};
+
 export class TeamRepository implements ITeamRepository {
   public async create({
     name,
@@ -47,20 +60,20 @@ export class TeamRepository implements ITeamRepository {
       where: {
         redmine_id,
       },
-      include: {
-        activities: {
-          include: {
-            activities_redmine: true,
-          },
-        },
-        categories: {
-          include: {
-            categories_redmine: true,
-          },
-        },
-      },
+      include: defaultInclude,
     });
 
     return recordToEntity(Team, teams);
+  }
+
+  public async findByName(name: string): Promise<ITeam | null> {
+    const team = await prismaClient.team.findFirst({
+      where: {
+        name,
+      },
+      include: defaultInclude,
+    });
+
+    return team ? recordToEntity(Team, team) : null;
   }
 }
