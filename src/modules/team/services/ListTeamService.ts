@@ -22,7 +22,7 @@ class ListTeamService {
     const redmine = await this.redmineRepository.findById(redmine_id);
 
     if (!redmine || redmine.redmine_users.find(user => user.id === user_id)) {
-      throw new AppError('Usúario sem permissão.');
+      throw new AppError('Usúario sem permissão.', 401);
     }
 
     const teams = await this.teamRepository.findByRedmineId(redmine_id);
