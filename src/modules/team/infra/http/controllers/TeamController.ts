@@ -1,5 +1,5 @@
-import { container } from 'tsyringe';
 import { Request, Response } from 'express';
+import { container } from 'tsyringe';
 import CreateTeamService from '../../../services/CreateTeamService';
 // import DeleteTeamService from '../../../services/DeleteTeamService';
 // import ListTeamService from '../../../services/ListTeamService';
@@ -8,14 +8,14 @@ import CreateTeamService from '../../../services/CreateTeamService';
 // import ImportUsersTeamService from '@modules/team/services/ImportUsersTeamService';
 
 export default class TeamController {
-  // public async index(request: Request, response: Response): Promise<Response> {
-  //   const user_id = request.user.id;
-  //   const listTeams = container.resolve(ListTeamService);
+  public async index(request: Request, response: Response): Promise<Response> {
+    const { redmine_id } = request.params;
+    const listTeams = container.resolve(ListTeamService);
 
-  //   const teams = await listTeams.execute({ user_id });
+    const teams = await listTeams.execute({ user_id });
 
-  //   return response.json(teams);
-  // }
+    return response.json(teams);
+  }
 
   // public async show(request: Request, response: Response): Promise<Response> {
   //   const user_id = request.user.id;
