@@ -52,13 +52,7 @@ export class RedmineRepository implements IRedmineRepository {
       include: {
         redmine_users: {
           include: {
-            user: {
-              select: {
-                id: true,
-                name: true,
-                email: true,
-              },
-            },
+            user: true,
           },
         },
       },
@@ -79,13 +73,7 @@ export class RedmineRepository implements IRedmineRepository {
       include: {
         redmine_users: {
           include: {
-            user: {
-              select: {
-                id: true,
-                name: true,
-                email: true,
-              },
-            },
+            user: true,
           },
         },
       },

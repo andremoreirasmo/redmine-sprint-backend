@@ -3,7 +3,7 @@ import EnumRoleRedmine, {
 } from '@modules/redmine/domain/enums/EnumRoleRedmine';
 import { IRedmine } from '@modules/redmine/domain/models/IRedmine';
 import { ITeam } from '@modules/team/domain/models/ITeam';
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import RedmineUser from './RedmineUser';
 import RedmineUserImport from './RedmineUserImport';
 
@@ -34,8 +34,10 @@ class Redmine implements IRedmine {
       EnumRoleRedmine.Owner,
     ),
   })
+  @Type(() => RedmineUser)
   redmine_users: RedmineUser[];
 
+  @Type(() => RedmineUserImport)
   redmine_users_import: RedmineUserImport[];
 
   teams: ITeam[]; //Todo: Ajustar
