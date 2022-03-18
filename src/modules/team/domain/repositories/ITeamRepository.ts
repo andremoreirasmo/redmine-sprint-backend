@@ -6,4 +6,5 @@ export interface ITeamRepository {
   save(team: ITeam): Promise<ITeam>;
   findByRedmineId(redmine_id: string): Promise<ITeam[]>;
   findByName(name: string): Promise<ITeam | null>;
+  findById(id: string): Promise<ITeam | null>;
 }

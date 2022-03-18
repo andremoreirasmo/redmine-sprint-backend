@@ -76,4 +76,15 @@ export class TeamRepository implements ITeamRepository {
 
     return team ? recordToEntity(Team, team) : null;
   }
+
+  public async findById(id: string): Promise<ITeam | null> {
+    const team = await prismaClient.team.findUnique({
+      where: {
+        id,
+      },
+      include: defaultInclude,
+    });
+
+    return team ? recordToEntity(Team, team) : null;
+  }
 }

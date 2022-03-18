@@ -18,15 +18,15 @@ teamRouter.get(
   teamController.index,
 );
 
-// teamRouter.get(
-//   '/:id',
-//   celebrate({
-//     [Segments.PARAMS]: {
-//       id: Joi.string().uuid().required(),
-//     },
-//   }),
-//   teamController.show,
-// );
+teamRouter.get(
+  '/:team_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      team_id: Joi.string().uuid().required(),
+    },
+  }),
+  teamController.show,
+);
 
 teamRouter.post(
   '/',
