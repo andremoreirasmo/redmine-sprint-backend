@@ -9,17 +9,21 @@ export class TeamActivityRepository implements ITeamActivityRepository {
     activities: ICreateTeamActivity[],
   ): Promise<ITeamActivity[]> {
     const activitiesCreated = prismaClient.$transaction(
-      activities.map(activity =>
-        prismaClient.team_activity.create({
+      activities.map(activity => {
+        const activities_redmine = activity.redmine_activities.map(id => {
+          return { redmine_activity_id: id };
+        });
+
+        return prismaClient.team_activity.create({
           data: {
-            ...activity,
+            name: activity.name,
             activities_redmine: {
-              createMany: { data: activity.redmine_activities },
+              createMany: { data: activities_redmine },
             },
             team_id,
           },
-        }),
-      ),
+        });
+      }),
     );
 
     return activitiesCreated;

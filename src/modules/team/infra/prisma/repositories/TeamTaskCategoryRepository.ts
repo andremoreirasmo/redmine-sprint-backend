@@ -9,17 +9,22 @@ export class TeamTaskCategoryRepository implements ITeamTaskCategoryRepository {
     categories: ICreateTeamTaskCategory[],
   ): Promise<ITeamTaskCategory[]> {
     const categoriesCreated = prismaClient.$transaction(
-      categories.map(category =>
-        prismaClient.team_task_category.create({
+      categories.map(category => {
+        const categories_redmine = category.redmine_categories.map(id => {
+          return { redmine_category_id: id };
+        });
+
+        return prismaClient.team_task_category.create({
           data: {
-            ...category,
+            name: category.name,
+            productive: category.productive,
             categories_redmine: {
-              createMany: { data: category.redmine_categories },
+              createMany: { data: categories_redmine },
             },
             team_id,
           },
-        }),
-      ),
+        });
+      }),
     );
 
     return categoriesCreated;

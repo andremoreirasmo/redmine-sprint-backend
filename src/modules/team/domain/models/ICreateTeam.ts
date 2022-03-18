@@ -1,20 +1,12 @@
-export interface ICreateTeamActivityRedmine {
-  redmine_activity_id: number;
-}
-
 export interface ICreateTeamActivity {
   name: string;
-  redmine_activities: ICreateTeamActivityRedmine[];
-}
-
-export interface ICreateTeamTaskCategoryRedmine {
-  redmine_category_id: number;
+  redmine_activities: number[];
 }
 
 export interface ICreateTeamTaskCategory {
   name: string;
   productive: boolean;
-  redmine_categories: ICreateTeamTaskCategoryRedmine[];
+  redmine_categories: number[];
 }
 
 export interface ICreateTeam {

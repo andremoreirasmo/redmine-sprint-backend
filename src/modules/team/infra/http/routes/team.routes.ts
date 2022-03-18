@@ -31,7 +31,7 @@ teamRouter.post(
         .items({
           name: Joi.string().required(),
           redmine_activities: Joi.array()
-            .items({ redmine_activity_id: Joi.number().required() })
+            .items(Joi.number().required())
             .required(),
         })
         .required(),
@@ -40,7 +40,7 @@ teamRouter.post(
           name: Joi.string().required(),
           productive: Joi.boolean().required(),
           redmine_categories: Joi.array()
-            .items({ redmine_category_id: Joi.number().required() })
+            .items(Joi.number().required())
             .required(),
         })
         .required(),
