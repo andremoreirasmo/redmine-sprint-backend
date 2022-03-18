@@ -1,3 +1,4 @@
+import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
 import { ICreateTeam } from '../domain/models/ICreateTeam';
 import { ITeam } from '../domain/models/ITeam';
@@ -17,6 +18,12 @@ class CreateTeamService {
   ) {}
 
   public async execute(data: ICreateTeam): Promise<ITeam> {
+    const teamExists = await this.teamRepository.findByName(data.name);
+
+    if (teamExists) {
+      throw new AppError(`Já existe um time com o nome ${data.name}.`);
+    }
+
     const team = await this.teamRepository.create(data);
 
     team.activities = await this.teamActivityRepository.create(
