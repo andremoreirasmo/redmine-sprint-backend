@@ -33,13 +33,22 @@ export class RedmineRepository implements IRedmineRepository {
     return recordToEntity(Redmine, redmine);
   }
 
-  public async save(redmine: IRedmine): Promise<IRedmine> {
+  public async save({
+    id,
+    name,
+    url,
+    apiKey,
+    project_import,
+  }: IRedmine): Promise<IRedmine> {
     const redmineUpdate = prismaClient.redmine.update({
       where: {
-        id: redmine.id,
+        id,
       },
       data: {
-        ...redmine,
+        name,
+        url,
+        apiKey,
+        project_import,
       },
     });
 
