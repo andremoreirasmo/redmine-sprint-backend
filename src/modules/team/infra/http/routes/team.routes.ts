@@ -70,14 +70,14 @@ teamRouter.post(
 //   teamController.update,
 // );
 
-// teamRouter.delete(
-//   '/:id',
-//   celebrate({
-//     [Segments.PARAMS]: {
-//       id: Joi.string().uuid().required(),
-//     },
-//   }),
-//   teamController.delete,
-// );
+teamRouter.delete(
+  '/:team_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      team_id: Joi.string().uuid().required(),
+    },
+  }),
+  teamController.delete,
+);
 
 export default teamRouter;

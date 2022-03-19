@@ -87,4 +87,8 @@ export class TeamRepository implements ITeamRepository {
 
     return team ? recordToEntity(Team, team) : null;
   }
+
+  public async deleteById(id: string): Promise<void> {
+    await prismaClient.team.delete({ where: { id } });
+  }
 }

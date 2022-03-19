@@ -1,3 +1,4 @@
+import DeleteTeamService from '@modules/team/services/DeleteTeamService';
 import ListTeamService from '@modules/team/services/ListTeamService';
 import ShowTeamService from '@modules/team/services/ShowTeamService';
 import { Request, Response } from 'express';
@@ -64,14 +65,14 @@ export default class TeamController {
   //   return response.json(team);
   // }
 
-  // public async delete(request: Request, response: Response): Promise<Response> {
-  //   const user_id = request.user.id;
-  //   const { id } = request.params;
+  public async delete(request: Request, response: Response): Promise<Response> {
+    const user_id = request.user.id;
+    const { team_id } = request.params;
 
-  //   const deleteTeam = container.resolve(DeleteTeamService);
+    const deleteTeam = container.resolve(DeleteTeamService);
 
-  //   await deleteTeam.execute({ user_id, id });
+    await deleteTeam.execute({ user_id, team_id });
 
-  //   return response.status(204).json();
-  // }
+    return response.status(204).json();
+  }
 }

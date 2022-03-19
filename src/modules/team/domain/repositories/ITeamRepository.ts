@@ -7,4 +7,5 @@ export interface ITeamRepository {
   findByRedmineId(redmine_id: string): Promise<ITeam[]>;
   findByName(name: string): Promise<ITeam | null>;
   findById(id: string): Promise<ITeam | null>;
+  deleteById(id: string): Promise<void>;
 }
