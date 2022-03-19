@@ -35,12 +35,10 @@ export class TeamRepository implements ITeamRepository {
     return recordToEntity(Team, teamCreate);
   }
 
-  public async save({
-    id,
-    name,
-    hours_per_point,
-    redmine_id,
-  }: ITeam): Promise<ITeam> {
+  public async updateAndDeleteRelatedRecords(
+    id: string,
+    { name, redmine_id, hours_per_point }: ICreateTeam,
+  ): Promise<ITeam> {
     const teamSaved = await prismaClient.team.update({
       where: {
         id,
@@ -49,6 +47,12 @@ export class TeamRepository implements ITeamRepository {
         name,
         hours_per_point,
         redmine_id,
+        activities: {
+          deleteMany: {},
+        },
+        categories: {
+          deleteMany: {},
+        },
       },
     });
 

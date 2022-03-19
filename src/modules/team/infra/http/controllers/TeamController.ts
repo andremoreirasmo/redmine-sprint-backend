@@ -1,6 +1,7 @@
 import DeleteTeamService from '@modules/team/services/DeleteTeamService';
 import ListTeamService from '@modules/team/services/ListTeamService';
 import ShowTeamService from '@modules/team/services/ShowTeamService';
+import UpdateTeamService from '@modules/team/services/UpdateTeamService';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import CreateTeamService from '../../../services/CreateTeamService';
@@ -8,7 +9,7 @@ import CreateTeamService from '../../../services/CreateTeamService';
 export default class TeamController {
   public async index(request: Request, response: Response): Promise<Response> {
     const user_id = request.user.id;
-    const { redmine_id } = request.params;
+    const redmine_id = request.query.redmine_id as string;
     const listTeams = container.resolve(ListTeamService);
 
     const teams = await listTeams.execute({ user_id, redmine_id });
@@ -43,27 +44,27 @@ export default class TeamController {
     return response.json(team);
   }
 
-  // public async update(request: Request, response: Response): Promise<Response> {
-  //   const user_id = request.user.id;
-  //   const { id } = request.params;
-  //   const { name, url, apiKey, project_import } = request.body;
+  public async update(request: Request, response: Response): Promise<Response> {
+    const user_id = request.user.id;
+    const { team_id } = request.params;
 
-  //   const updateTeam = container.resolve(UpdateTeamService);
+    const { name, redmine_id, hours_per_point, activities, categories } =
+      request.body;
 
-  //   const team = await updateTeam.execute({
-  //     user_id,
-  //     id,
-  //     name,
-  //     url,
-  //     apiKey,
-  //     project_import,
-  //   });
+    const updateTeam = container.resolve(UpdateTeamService);
 
-  //   const importUsersTeamService = container.resolve(ImportUsersTeamService);
-  //   await importUsersTeamService.execute(team);
+    const team = await updateTeam.execute({
+      user_id,
+      team_id,
+      name,
+      redmine_id,
+      hours_per_point,
+      activities,
+      categories,
+    });
 
-  //   return response.json(team);
-  // }
+    return response.json(team);
+  }
 
   public async delete(request: Request, response: Response): Promise<Response> {
     const user_id = request.user.id;

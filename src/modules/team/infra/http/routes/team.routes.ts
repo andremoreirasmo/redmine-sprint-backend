@@ -9,9 +9,9 @@ const teamController = new TeamController();
 teamRouter.use(isAuthenticated);
 
 teamRouter.get(
-  '/:redmine_id',
+  '/',
   celebrate({
-    [Segments.PARAMS]: {
+    [Segments.QUERY]: {
       redmine_id: Joi.string().uuid().required(),
     },
   }),
@@ -57,18 +57,37 @@ teamRouter.post(
   teamController.create,
 );
 
-// teamRouter.put(
-//   '/:id',
-//   celebrate({
-//     [Segments.BODY]: {
-//       name: Joi.string().required(),
-//       url: Joi.string().required(),
-//       apiKey: Joi.string().required(),
-//       project_import: Joi.number().required(),
-//     },
-//   }),
-//   teamController.update,
-// );
+teamRouter.put(
+  '/:team_id',
+  celebrate({
+    [Segments.PARAMS]: {
+      team_id: Joi.string().uuid().required(),
+    },
+    [Segments.BODY]: {
+      name: Joi.string().required(),
+      redmine_id: Joi.string().required(),
+      hours_per_point: Joi.number().required(),
+      activities: Joi.array()
+        .items({
+          name: Joi.string().required(),
+          redmine_activities: Joi.array()
+            .items(Joi.number().required())
+            .required(),
+        })
+        .required(),
+      categories: Joi.array()
+        .items({
+          name: Joi.string().required(),
+          productive: Joi.boolean().required(),
+          redmine_categories: Joi.array()
+            .items(Joi.number().required())
+            .required(),
+        })
+        .required(),
+    },
+  }),
+  teamController.update,
+);
 
 teamRouter.delete(
   '/:team_id',
