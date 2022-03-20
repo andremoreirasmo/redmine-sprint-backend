@@ -21,7 +21,7 @@ class ListTeamService {
   public async execute({ user_id, redmine_id }: Props): Promise<ITeam[]> {
     const redmine = await this.redmineRepository.findById(redmine_id);
 
-    if (!redmine || redmine.redmine_users.find(user => user.id === user_id)) {
+    if (!redmine || !redmine.redmine_users.find(user => user.id === user_id)) {
       throw new AppError('Usúario sem permissão.', 401);
     }
 
