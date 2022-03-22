@@ -45,7 +45,7 @@ export default class RedmineController {
     const importUsersRedmineService = container.resolve(
       ImportUsersRedmineService,
     );
-    importUsersRedmineService.execute(redmine);
+    await importUsersRedmineService.execute(redmine);
 
     return response.json(redmine);
   }
