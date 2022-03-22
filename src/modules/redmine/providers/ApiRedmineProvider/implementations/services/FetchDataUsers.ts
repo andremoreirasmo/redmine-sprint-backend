@@ -25,6 +25,10 @@ export default class FetchDataUsers {
             throw new AppError('Acesso não autorizado');
             break;
 
+          case 500:
+            throw new AppError('Erro interno da api do Redmine');
+            break;
+
           default:
             throw new AppError(
               'Não foi possível se conectar na api do Redmine',
