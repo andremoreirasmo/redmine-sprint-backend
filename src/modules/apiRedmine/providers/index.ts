@@ -1,8 +1,8 @@
 import { container } from 'tsyringe';
+import { IApiRedmineGetProjectsProvider } from '../domain/models/IApiRedmineGetProjectsProvider';
+import { IApiRedmineGetUsersProvider } from '../domain/models/IApiRedmineGetUsersProvider';
 import ApiRedmineGetProjectsProvider from './ApiRedmineProvider/implementations/ApiRedmineGetProjectsProvider';
 import ApiRedmineGetUsersProvider from './ApiRedmineProvider/implementations/ApiRedmineGetUsersProvider';
-import { IApiRedmineGetProjectsProvider } from './ApiRedmineProvider/models/IApiRedmineGetProjectsProvider';
-import { IApiRedmineGetUsersProvider } from './ApiRedmineProvider/models/IApiRedmineGetUsersProvider';
 
 container.registerSingleton<IApiRedmineGetProjectsProvider>(
   'ApiRedmineGetProjectsProvider',

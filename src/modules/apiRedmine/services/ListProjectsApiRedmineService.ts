@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe';
-import { IApiProjetcRedmine } from '../providers/ApiRedmineProvider/models/IApiProjetcRedmine';
-import { IApiRedmineGetProjectsProvider } from '../providers/ApiRedmineProvider/models/IApiRedmineGetProjectsProvider';
+import { IApiProjetcRedmine } from '../domain/models/IApiProjetcRedmine';
+import { IApiRedmineGetProjectsProvider } from '../domain/models/IApiRedmineGetProjectsProvider';
 
 interface IRequest {
   url: string;

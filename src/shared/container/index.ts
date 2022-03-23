@@ -2,7 +2,7 @@ import { IRedmineRepository } from '@modules/redmine/domain/repositories/IRedmin
 import { IRedmineUserImportRepository } from '@modules/redmine/domain/repositories/IRedmineUserImportRepository';
 import { RedmineRepository } from '@modules/redmine/infra/prisma/repositories/RedmineRepository';
 import { RedmineUserImportRepository } from '@modules/redmine/infra/prisma/repositories/RedmineUserImportRepository';
-import '@modules/redmine/providers';
+import '@modules/apiRedmine/providers';
 import { ITeamActivityRepository } from '@modules/team/domain/repositories/ITeamActivityRepository';
 import { ITeamRepository } from '@modules/team/domain/repositories/ITeamRepository';
 import { ITeamTaskCategoryRepository } from '@modules/team/domain/repositories/ITeamTaskCategoryRepository';

@@ -1,6 +1,6 @@
 import { container } from 'tsyringe';
 import { Request, Response } from 'express';
-import ListProjectsApiRedmineService from '@modules/redmine/services/ListProjectsApiRedmineService';
+import ListProjectsApiRedmineService from '@modules/apiRedmine/services/ListProjectsApiRedmineService';
 
 export default class ApiRedmineController {
   public async getProjects(

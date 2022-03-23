@@ -1,7 +1,7 @@
+import { IApiProjetcRedmine } from '@modules/apiRedmine/domain/models/IApiProjetcRedmine';
+import { IApiRedmineGetProjectsProvider } from '@modules/apiRedmine/domain/models/IApiRedmineGetProjectsProvider';
 import AppError from '@shared/errors/AppError';
 import axios, { AxiosError } from 'axios';
-import { IApiProjetcRedmine } from '../models/IApiProjetcRedmine';
-import { IApiRedmineGetProjectsProvider } from '../models/IApiRedmineGetProjectsProvider';
 
 interface IResponseApi {
   projects: IApiProjetcRedmine[];

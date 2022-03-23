@@ -1,6 +1,6 @@
-import { IApiRedmineGetUsersProvider } from '../models/IApiRedmineGetUsersProvider';
-import { IApiUserRedmine } from '../models/IApiUserRedmine';
-import { IMemberships } from './models/GetUsersProviderModels';
+import { IApiRedmineGetUsersProvider } from '@modules/apiRedmine/domain/models/IApiRedmineGetUsersProvider';
+import { IApiUserRedmine } from '@modules/apiRedmine/domain/models/IApiUserRedmine';
+import { IMemberships } from '@modules/apiRedmine/domain/models/IGetUsersProviderModels';
 import FetchDataUsers from './services/FetchDataUsers';
 
 class ApiRedmineGetUsersProvider implements IApiRedmineGetUsersProvider {
