@@ -11,12 +11,22 @@ apiRedmineRouter.use(isAuthenticated);
 apiRedmineRouter.get(
   '/projects',
   celebrate({
-    [Segments.HEADERS]: Joi.object({
+    [Segments.QUERY]: {
       url_redmine: Joi.string().required(),
       api_key_redmine: Joi.string().required(),
-    }).unknown(),
+    },
   }),
   apiRedmineController.getProjects,
+);
+
+apiRedmineRouter.get(
+  '/activities',
+  celebrate({
+    [Segments.QUERY]: {
+      redmine_id: Joi.string().uuid().required(),
+    },
+  }),
+  apiRedmineController.getActvities,
 );
 
 export default apiRedmineRouter;
