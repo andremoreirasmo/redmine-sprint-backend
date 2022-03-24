@@ -1,7 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import { IApiProjetcRedmine } from '../domain/models/IApiProjetcRedmine';
-import { IApiRedmineGetActivitiesProvider } from '../domain/models/IApiRedmineGetActivitiesProvider';
-import { IApiRedmineGetProjectsProvider } from '../domain/models/IApiRedmineGetProjectsProvider';
+import { IApiRedmineGetActivitiesProvider } from '../domain/providers/IApiRedmineGetActivitiesProvider';
 
 interface IRequest {
   url: string;
@@ -19,12 +18,12 @@ class ListActivitiesApiRedmineService {
     url,
     apiKey,
   }: IRequest): Promise<IApiProjetcRedmine[]> {
-    const projects = await this.apiRedmineGetActivitiesProvider.get(
+    const activities = await this.apiRedmineGetActivitiesProvider.get(
       url,
       apiKey,
     );
 
-    return projects.filter(activity => activity.active);
+    return activities.filter(activity => activity.active);
   }
 }
 

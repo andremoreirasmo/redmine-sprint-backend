@@ -1,4 +1,4 @@
-import { IApiRedmineGetUsersProvider } from '@modules/apiRedmine/domain/models/IApiRedmineGetUsersProvider';
+import { IApiRedmineGetUsersProvider } from '@modules/apiRedmine/domain/providers/IApiRedmineGetUsersProvider';
 import { inject, injectable } from 'tsyringe';
 import { IRedmine } from '../domain/models/IRedmine';
 import { IRedmineUserImportRepository } from '../domain/repositories/IRedmineUserImportRepository';

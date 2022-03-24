@@ -1,5 +1,5 @@
 import { IApiRedmineActvity } from '@modules/apiRedmine/domain/models/IApiRedmineActvity';
-import { IApiRedmineGetActivitiesProvider } from '@modules/apiRedmine/domain/models/IApiRedmineGetActivitiesProvider';
+import { IApiRedmineGetActivitiesProvider } from '@modules/apiRedmine/domain/providers/IApiRedmineGetActivitiesProvider';
 import AppError from '@shared/errors/AppError';
 import axios, { AxiosError } from 'axios';
 

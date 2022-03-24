@@ -1,7 +1,7 @@
 import { container } from 'tsyringe';
-import { IApiRedmineGetActivitiesProvider } from '../domain/models/IApiRedmineGetActivitiesProvider';
-import { IApiRedmineGetProjectsProvider } from '../domain/models/IApiRedmineGetProjectsProvider';
-import { IApiRedmineGetUsersProvider } from '../domain/models/IApiRedmineGetUsersProvider';
+import { IApiRedmineGetActivitiesProvider } from '../domain/providers/IApiRedmineGetActivitiesProvider';
+import { IApiRedmineGetProjectsProvider } from '../domain/providers/IApiRedmineGetProjectsProvider';
+import { IApiRedmineGetUsersProvider } from '../domain/providers/IApiRedmineGetUsersProvider';
 import ApiRedmineGetActivitiesProvider from './ApiRedmineProvider/implementations/ApiRedmineGetActivitiesProvider';
 import ApiRedmineGetProjectsProvider from './ApiRedmineProvider/implementations/ApiRedmineGetProjectsProvider';
 import ApiRedmineGetUsersProvider from './ApiRedmineProvider/implementations/ApiRedmineGetUsersProvider';

@@ -1,4 +1,4 @@
-import { IApiUserRedmine } from './IApiUserRedmine';
+import { IApiUserRedmine } from '../models/IApiUserRedmine';
 
 export interface IApiRedmineGetUsersProvider {
   get(
