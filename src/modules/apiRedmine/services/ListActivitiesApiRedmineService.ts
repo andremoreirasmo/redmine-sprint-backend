@@ -1,5 +1,5 @@
 import { inject, injectable } from 'tsyringe';
-import { IApiProjetcRedmine } from '../domain/models/IApiProjetcRedmine';
+import { IApiRedmineActvity } from '../domain/models/IApiRedmineActvity';
 import { IApiRedmineGetActivitiesProvider } from '../domain/providers/IApiRedmineGetActivitiesProvider';
 
 interface IRequest {
@@ -17,7 +17,7 @@ class ListActivitiesApiRedmineService {
   public async execute({
     url,
     apiKey,
-  }: IRequest): Promise<IApiProjetcRedmine[]> {
+  }: IRequest): Promise<IApiRedmineActvity[]> {
     const activities = await this.apiRedmineGetActivitiesProvider.get(
       url,
       apiKey,
