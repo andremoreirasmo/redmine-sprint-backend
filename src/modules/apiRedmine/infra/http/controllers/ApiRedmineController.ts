@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import ListProjectsApiRedmineService from '@modules/apiRedmine/services/ListProjectsApiRedmineService';
 import ListActivitiesApiRedmineService from '@modules/apiRedmine/services/ListActivitiesApiRedmineService';
 import ShowRedmineService from '@modules/redmine/services/ShowRedmineService';
+import ListCategoriesApiRedmineService from '@modules/apiRedmine/services/ListCategoriesApiRedmineService';
 
 export default class ApiRedmineController {
   public async getProjects(
@@ -46,5 +47,35 @@ export default class ApiRedmineController {
     });
 
     return response.json(acvities);
+  }
+
+  public async getCategories(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const user_id = request.user.id;
+    const { redmine_id } = request.query;
+
+    const showRedmine = container.resolve(ShowRedmineService);
+    const listProjects = container.resolve(ListProjectsApiRedmineService);
+    const listCategories = container.resolve(ListCategoriesApiRedmineService);
+
+    const redmine = await showRedmine.execute({
+      user_id,
+      id: redmine_id as string,
+    });
+
+    const projects = await listProjects.execute({
+      url: redmine.url,
+      apiKey: redmine.apiKey,
+    });
+
+    const categories = await listCategories.execute({
+      url: redmine.url,
+      apiKey: redmine.apiKey,
+      projects: projects.map(e => e.id),
+    });
+
+    return response.json(categories);
   }
 }
