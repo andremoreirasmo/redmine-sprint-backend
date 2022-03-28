@@ -4,6 +4,7 @@ import ListProjectsApiRedmineService from '@modules/apiRedmine/services/ListProj
 import ListActivitiesApiRedmineService from '@modules/apiRedmine/services/ListActivitiesApiRedmineService';
 import ShowRedmineService from '@modules/redmine/services/ShowRedmineService';
 import ListCategoriesApiRedmineService from '@modules/apiRedmine/services/ListCategoriesApiRedmineService';
+import ListUsersRedmineService from '@modules/apiRedmine/services/ListUsersRedmineService';
 
 export default class ApiRedmineController {
   public async getProjects(
@@ -77,5 +78,27 @@ export default class ApiRedmineController {
     });
 
     return response.json(categories);
+  }
+
+  public async getUsers(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const user_id = request.user.id;
+    const { redmine_id } = request.query;
+
+    const showRedmine = container.resolve(ShowRedmineService);
+    const listUsers = container.resolve(ListUsersRedmineService);
+
+    const redmine = await showRedmine.execute({
+      user_id,
+      id: redmine_id as string,
+    });
+
+    const users = await listUsers.execute({
+      redmine_id: redmine.id,
+    });
+
+    return response.json(users);
   }
 }

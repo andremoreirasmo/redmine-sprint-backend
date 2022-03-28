@@ -39,4 +39,14 @@ apiRedmineRouter.get(
   apiRedmineController.getCategories,
 );
 
+apiRedmineRouter.get(
+  '/users',
+  celebrate({
+    [Segments.QUERY]: {
+      redmine_id: Joi.string().uuid().required(),
+    },
+  }),
+  apiRedmineController.getUsers,
+);
+
 export default apiRedmineRouter;
