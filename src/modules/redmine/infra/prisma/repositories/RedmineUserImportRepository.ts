@@ -11,6 +11,7 @@ export class RedmineUserImportRepository
   public async findByRedmine(id: string): Promise<IRedmineUserImport[]> {
     const users = await prismaClient.redmine_user_import.findMany({
       where: { redmine_id: id },
+      orderBy: { name: 'asc' },
     });
 
     return recordToEntity(RedmineUserImport, users);
