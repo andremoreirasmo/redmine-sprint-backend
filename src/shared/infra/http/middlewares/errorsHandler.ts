@@ -1,4 +1,5 @@
 import AppError from '@shared/errors/AppError';
+import { CelebrateError, isCelebrateError } from 'celebrate';
 import { NextFunction, Request, Response } from 'express';
 
 export default function errorsHandler(
@@ -10,7 +11,27 @@ export default function errorsHandler(
   if (error instanceof AppError) {
     return response.status(error.statusCode).json({
       status: 'error',
-      message: error.message,
+      messages: error.message,
+    });
+  }
+
+  if (isCelebrateError(error)) {
+    const errorCelebrate = error as CelebrateError;
+    const messages = [];
+
+    for (const [segment, joiError] of errorCelebrate.details.entries()) {
+      messages.push(
+        joiError.details.map(err => {
+          console.log(err.context);
+
+          return err.message + ' in segment ' + segment;
+        }),
+      );
+    }
+
+    return response.status(422).json({
+      status: 'error',
+      messages: messages,
     });
   }
 
