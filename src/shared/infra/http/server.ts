@@ -6,6 +6,7 @@ import cors from 'cors';
 import routes from './routes';
 import '@shared/container';
 import errorsHandler from './middlewares/errorsHandler';
+import celebrateErrorHandler from './middlewares/celebrateErrorHandler';
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(express.json());
 
 app.use(routes);
 
+app.use(celebrateErrorHandler);
 app.use(errorsHandler);
 
 app.listen(3333, () => {
