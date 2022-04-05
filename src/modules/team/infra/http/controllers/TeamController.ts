@@ -29,8 +29,14 @@ export default class TeamController {
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
-    const { name, redmine_id, hours_per_point, activities, categories } =
-      request.body;
+    const {
+      name,
+      redmine_id,
+      hours_per_point,
+      activities,
+      categories,
+      users_redmine,
+    } = request.body;
 
     const createTeam = container.resolve(CreateTeamService);
     const team = await createTeam.execute({
@@ -39,6 +45,7 @@ export default class TeamController {
       hours_per_point,
       activities,
       categories,
+      users_redmine,
     });
 
     return response.json(team);
@@ -48,8 +55,14 @@ export default class TeamController {
     const user_id = request.user.id;
     const { team_id } = request.params;
 
-    const { name, redmine_id, hours_per_point, activities, categories } =
-      request.body;
+    const {
+      name,
+      redmine_id,
+      hours_per_point,
+      activities,
+      categories,
+      users_redmine,
+    } = request.body;
 
     const updateTeam = container.resolve(UpdateTeamService);
 
@@ -61,6 +74,7 @@ export default class TeamController {
       hours_per_point,
       activities,
       categories,
+      users_redmine,
     });
 
     return response.json(team);

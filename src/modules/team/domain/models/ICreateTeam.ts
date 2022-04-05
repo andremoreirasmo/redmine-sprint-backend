@@ -1,3 +1,5 @@
+import { IRedmineUserImport } from '@modules/redmine/domain/models/IRedmineUserImport';
+
 export interface ICreateTeamActivity {
   name: string;
   redmine_activities: number[];
@@ -15,4 +17,5 @@ export interface ICreateTeam {
   hours_per_point: number;
   activities: ICreateTeamActivity[];
   categories: ICreateTeamTaskCategory[];
+  users_redmine: Partial<IRedmineUserImport>;
 }

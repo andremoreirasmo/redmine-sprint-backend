@@ -52,6 +52,11 @@ teamRouter.post(
             .required(),
         })
         .required(),
+      users_redmine: Joi.array()
+        .items({
+          id: Joi.string().uuid().required(),
+        })
+        .required(),
     },
   }),
   teamController.create,
@@ -82,6 +87,11 @@ teamRouter.put(
           redmine_categories: Joi.array()
             .items(Joi.number().required())
             .required(),
+        })
+        .required(),
+      users_redmine: Joi.array()
+        .items({
+          id: Joi.string().uuid().required(),
         })
         .required(),
     },
