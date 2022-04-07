@@ -1,7 +1,8 @@
 import { Type } from 'class-transformer';
 import { ITeam } from '../models/ITeam';
-import TeamActivity from './ITeamActivity';
-import TeamTaskCategory from './ITeamTaskCategory';
+import TeamActivity from './TeamActivity';
+import TeamRedmineUser from './TeamRedmineUser';
+import TeamTaskCategory from './TeamTaskCategory';
 
 class Team implements ITeam {
   id: string;
@@ -21,6 +22,9 @@ class Team implements ITeam {
 
   @Type(() => TeamTaskCategory)
   categories: TeamTaskCategory[];
+
+  @Type(() => TeamRedmineUser)
+  redmine_users: TeamRedmineUser[];
 }
 
 export default Team;

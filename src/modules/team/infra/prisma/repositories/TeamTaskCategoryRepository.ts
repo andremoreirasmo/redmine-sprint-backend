@@ -1,4 +1,4 @@
-import TeamTaskCategory from '@modules/team/domain/entities/ITeamTaskCategory';
+import TeamTaskCategory from '@modules/team/domain/entities/TeamTaskCategory';
 import { ITeamTaskCategory } from '@modules/team/domain/models/ITeamTaskCategory';
 import { ITeamTaskCategoryRepository } from '@modules/team/domain/repositories/ITeamTaskCategoryRepository';
 import { recordToEntity } from '@shared/entitites/RecordToEntity';

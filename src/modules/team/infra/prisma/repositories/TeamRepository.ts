@@ -1,4 +1,4 @@
-import Team from '@modules/team/domain/entities/ITeam';
+import Team from '@modules/team/domain/entities/Team';
 import { ICreateTeam } from '@modules/team/domain/models/ICreateTeam';
 import { ITeam } from '@modules/team/domain/models/ITeam';
 import { ITeamRepository } from '@modules/team/domain/repositories/ITeamRepository';

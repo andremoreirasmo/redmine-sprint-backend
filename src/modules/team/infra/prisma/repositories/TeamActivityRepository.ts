@@ -1,4 +1,4 @@
-import TeamActivity from '@modules/team/domain/entities/ITeamActivity';
+import TeamActivity from '@modules/team/domain/entities/TeamActivity';
 import { ICreateTeamActivity } from '@modules/team/domain/models/ICreateTeam';
 import { ITeamActivity } from '@modules/team/domain/models/ITeamActivity';
 import { ITeamActivityRepository } from '@modules/team/domain/repositories/ITeamActivityRepository';
