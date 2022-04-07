@@ -4,6 +4,7 @@ import { inject, injectable } from 'tsyringe';
 import { ICreateTeam } from '../domain/models/ICreateTeam';
 import { ITeam } from '../domain/models/ITeam';
 import { ITeamActivityRepository } from '../domain/repositories/ITeamActivityRepository';
+import { ITeamRedmineUserRepository } from '../domain/repositories/ITeamRedmineUserRepository';
 import { ITeamRepository } from '../domain/repositories/ITeamRepository';
 import { ITeamTaskCategoryRepository } from '../domain/repositories/ITeamTaskCategoryRepository';
 
@@ -23,6 +24,8 @@ class UpdateTeamService {
     private teamActivityRepository: ITeamActivityRepository,
     @inject('TeamTaskCategoryRepository')
     private teamTaskCategoryRepository: ITeamTaskCategoryRepository,
+    @inject('TeamRedmineUserRepository')
+    private teamRedmineUserRepository: ITeamRedmineUserRepository,
   ) {}
 
   public async execute({ user_id, team_id, ...data }: Props): Promise<ITeam> {
@@ -57,6 +60,11 @@ class UpdateTeamService {
     updatedTeam.categories = await this.teamTaskCategoryRepository.create(
       team.id,
       data.categories,
+    );
+
+    team.redmine_users = await this.teamRedmineUserRepository.create(
+      team.id,
+      data.users_redmine,
     );
 
     return updatedTeam;

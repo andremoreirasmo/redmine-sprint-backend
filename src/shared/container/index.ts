@@ -15,6 +15,8 @@ import '@modules/user/providers';
 import { container } from 'tsyringe';
 import { IUserRepository } from './../../modules/user/domain/repositories/IUserRepository';
 import { IUserTokenRepository } from './../../modules/user/domain/repositories/IUserTokenRepository';
+import { ITeamRedmineUserRepository } from '@modules/team/domain/repositories/ITeamRedmineUserRepository';
+import { TeamRedmineUserRepository } from '@modules/team/infra/prisma/repositories/TeamRedmineUserRepository';
 
 container.registerSingleton<IRedmineRepository>(
   'RedmineRepository',
@@ -39,4 +41,8 @@ container.registerSingleton<ITeamActivityRepository>(
 container.registerSingleton<ITeamTaskCategoryRepository>(
   'TeamTaskCategoryRepository',
   TeamTaskCategoryRepository,
+);
+container.registerSingleton<ITeamRedmineUserRepository>(
+  'TeamRedmineUserRepository',
+  TeamRedmineUserRepository,
 );

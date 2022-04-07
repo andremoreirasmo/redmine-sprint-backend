@@ -1,4 +1,5 @@
 import { ITeamActivity } from './ITeamActivity';
+import { ITeamRedmineUser } from './ITeamRedmineUser';
 import { ITeamTaskCategory } from './ITeamTaskCategory';
 export interface ITeam {
   id: string;
@@ -9,4 +10,5 @@ export interface ITeam {
   updatedAt: Date;
   activities: ITeamActivity[];
   categories: ITeamTaskCategory[];
+  redmine_users: ITeamRedmineUser[];
 }

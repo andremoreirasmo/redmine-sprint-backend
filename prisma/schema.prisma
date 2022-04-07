@@ -43,16 +43,16 @@ model redmine_user_import {
 }
 
 model team {
-  id                String               @id() @default(uuid())
-  name              String
-  hours_per_point   Int
-  redmine_id        String
-  createdAt         DateTime             @default(now())
-  updatedAt         DateTime             @default(now())
-  redmine           redmine              @relation(fields: [redmine_id], references: [id], onDelete: Cascade)
-  activities        team_activity[]
-  categories        team_task_category[]
-  team_redmine_user team_redmine_user[]
+  id              String               @id() @default(uuid())
+  name            String
+  hours_per_point Int
+  redmine_id      String
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @default(now())
+  redmine         redmine              @relation(fields: [redmine_id], references: [id], onDelete: Cascade)
+  activities      team_activity[]
+  categories      team_task_category[]
+  redmine_users   team_redmine_user[]
 }
 
 model team_redmine_user {
