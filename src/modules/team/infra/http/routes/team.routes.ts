@@ -39,8 +39,15 @@ teamRouter.post(
         .items({
           name: Joi.string().required(),
           redmine_activities: Joi.array()
-            .items(Joi.number().required())
-            .required(),
+            .items(
+              Joi.object()
+                .keys({
+                  id: Joi.number().required(),
+                })
+                .unknown(),
+            )
+            .required()
+            .min(1),
         })
         .required(),
       categories: Joi.array()
@@ -48,15 +55,27 @@ teamRouter.post(
           name: Joi.string().required(),
           productive: Joi.boolean().required(),
           redmine_categories: Joi.array()
-            .items(Joi.number().required())
+            .items(
+              Joi.object()
+                .keys({
+                  id: Joi.number().required(),
+                })
+                .unknown(),
+            )
             .required(),
         })
-        .required(),
+        .required()
+        .min(1),
       users_redmine: Joi.array()
-        .items({
-          id: Joi.string().uuid().required(),
-        })
-        .required(),
+        .items(
+          Joi.object()
+            .keys({
+              id: Joi.string().uuid().required(),
+            })
+            .unknown(),
+        )
+        .required()
+        .min(1),
     },
   }),
   teamController.create,

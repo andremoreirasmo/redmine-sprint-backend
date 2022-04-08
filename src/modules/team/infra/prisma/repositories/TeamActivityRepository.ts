@@ -12,8 +12,8 @@ export class TeamActivityRepository implements ITeamActivityRepository {
   ): Promise<ITeamActivity[]> {
     const activitiesCreated = await prismaClient.$transaction(
       activities.map(activity => {
-        const activities_redmine = activity.redmine_activities.map(id => {
-          return { redmine_activity_id: id };
+        const activities_redmine = activity.redmine_activities.map(e => {
+          return { redmine_activity_id: e.id };
         });
 
         return prismaClient.team_activity.create({
